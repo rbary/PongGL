@@ -10,12 +10,12 @@ function createScene(width, height)
     var pongScene = new PongScene();
     var renderer = new PongRenderer("view", width, height, pongScene.getThreeScene());
     
-    renderer.showNormalBox(true);
-    renderer.showAxis(true);
+    renderer.makeNormalBox();
+    renderer.makeAxis();
     
     renderer.render();
 }
 
 window.onload = function(){
-    createScene(300, 300);
+    createScene(window.innerWidth, window.innerHeight);
 };
