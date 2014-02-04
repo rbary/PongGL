@@ -7,8 +7,6 @@
 
 var PongRenderer = new JS.Class({
     initialize: function(htmlContainerId, width, height, scene){
-//        this._normalBox = null;
-//        this._axisHelper;
         this._width = width;
         this._height = height;
         this.scene = scene;

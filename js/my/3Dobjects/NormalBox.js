@@ -8,7 +8,7 @@
 
 var NormalBox = new JS.Class(Abstract3Doject, {
     initialize: function(){
-        var geometry = new THREE.CubeGeometry(1, 1, 1);
+        var geometry = new THREE.CubeGeometry(2, 2, 2, 0,0,0);
         var material = new THREE.MeshBasicMaterial({ color: 0xffcccc, wireframe: true });
         
         this.callSuper("NormalBox", 0, 0, 0, geometry, material);

@@ -4,18 +4,18 @@
  * and open the template in the editor.
  */
 
+var painter;
 
-function createScene(width, height)
+function animate()
 {
-    var pongScene = new PongScene();
-    var renderer = new PongRenderer("view", width, height, pongScene.getThreeScene());
-    
-    renderer.makeNormalBox();
-    renderer.makeAxis();
-    
-    renderer.render();
+    requestAnimationFrame(animate);
+    painter.paint();
+    painter.update();
 }
 
 window.onload = function(){
-    createScene(window.innerWidth, window.innerHeight);
+    painter = new PongPainter(window.innerWidth, window.innerHeight);
+    
+    painter.setCameraControls();
+    animate();
 };
