@@ -8,7 +8,7 @@
 var Wall = new JS.Class(Abstract3Doject, {
     initialize: function(name, xPos, yPos, zPos, width, height, depth){
         var geometry = new THREE.CubeGeometry(width, height, depth);
-        var material = new THREE.MeshBasicMaterial({ color: 0xcccccc, wireframe: false });
+        var material = new THREE.MeshPhongMaterial({ color: 0xcccccc, wireframe: false });
         
         this.callSuper(name, xPos, yPos, zPos, geometry, material);
     }

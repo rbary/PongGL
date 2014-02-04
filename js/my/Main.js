@@ -21,5 +21,7 @@ window.onload = function(){
     renderer.makeNormalBox();
     renderer.makeAxis();
     
+    renderer.setCameraPosition(pongScene.wallWidth/2+0.35, 0.4, 0);
+    
     animate();
 };

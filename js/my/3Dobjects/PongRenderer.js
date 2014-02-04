@@ -12,10 +12,15 @@ var PongRenderer = new JS.Class({
         this.cameraControls = null;
         this.scene = scene;
         
-        this.camera = new THREE.PerspectiveCamera(45, width / height, 1, 10);
+        this.camera = new THREE.PerspectiveCamera(45, width / height, 0.01, 10);
         this.camera.position.set(1, 2, 3);
         this.camera.lookAt(new THREE.Vector3(0,0,0));
         this.scene.add(this.camera);
+        
+//        this.light = new THREE.AmbientLight( 0x404040 ); // soft white light
+	this.light = new THREE.PointLight(0xffffff);
+	this.light.position.set(0,3,0);
+        this.scene.add(this.light);
 
         this.threeRenderer = new THREE.WebGLRenderer();
         this.threeRenderer.setSize(width, height);
@@ -62,6 +67,11 @@ var PongRenderer = new JS.Class({
     setSize: function(width, height){
         this._width = width;
         this._height = height;
+    },
+    
+    setCameraPosition: function(x, y, z){
+        this.camera.position.set(x, y, z);
+        this.camera.lookAt(new THREE.Vector3(0,0,0));
     },
     
     setFullScreenBindKey: function(char){
