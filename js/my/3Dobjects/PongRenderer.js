@@ -9,6 +9,7 @@ var PongRenderer = new JS.Class({
     initialize: function(htmlContainerId, width, height, scene){
         this._width = width;
         this._height = height;
+        this.cameraControls = null;
         this.scene = scene;
         
         this.camera = new THREE.PerspectiveCamera(45, width / height, 1, 10);
@@ -21,7 +22,9 @@ var PongRenderer = new JS.Class({
 
         this.htmlContainer = document.getElementById(htmlContainerId);
         this.htmlContainer.appendChild(this.threeRenderer.domElement);
-        
+
+        THREEx.WindowResize(this, this.camera);
+        this.fullScreenBindedKey = THREEx.FullScreen.bindKey({charCode: 'f'.charCodeAt(0)});        
     },
     
     makeNormalBox: function(){
@@ -35,8 +38,17 @@ var PongRenderer = new JS.Class({
         this.scene.add(this._axisHelper);
     },
     
+    setCameraControls: function(){
+        this.cameraControls = new THREE.OrbitControls(this.camera, this.domElement);
+    },
+    
     render: function(){
         this.threeRenderer.render(this.scene, this.camera);
+    },
+    
+    update: function(){
+        if(this.cameraControls !== null)
+            this.cameraControls.update();
     },
     
     width: function(){
@@ -50,5 +62,10 @@ var PongRenderer = new JS.Class({
     setSize: function(width, height){
         this._width = width;
         this._height = height;
+    },
+    
+    setFullScreenBindKey: function(char){
+        this.fullScreenBindedKey.unbind();
+        this.fullScreenBindedKey = THREEx.FullScreen.bindKey({charCode: char.charCodeAt(0)});
     }
 });
