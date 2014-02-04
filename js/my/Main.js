@@ -20,7 +20,6 @@ window.onload = function(){
     renderer.setCameraControls();
     renderer.makeNormalBox();
     renderer.makeAxis();
-    renderer.setFullScreenBindKey('m');
     
     animate();
 };
