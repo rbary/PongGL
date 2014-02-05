@@ -32,6 +32,9 @@ var Abstract3Doject = new JS.Class({
     setPosition: function(xPos, yPos, zPos){
         this._mesh.position.set(xPos, yPos, zPos);
     },
+    translate: function(translationVector){
+        this._mesh.position.add(translationVector);
+    },
     setRotation: function(xRot, yRot, zRot){
         this._mesh.rotation.set(xRot, yRot, zRot);
     },

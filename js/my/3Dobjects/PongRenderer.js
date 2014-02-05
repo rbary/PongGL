@@ -6,21 +6,22 @@
 
 
 var PongRenderer = new JS.Class({
-    initialize: function(htmlContainerId, width, height, scene){
+    initialize: function(htmlContainerId, width, height, pongScene){
         this._width = width;
         this._height = height;
+        this.lastTime = 0;
         this.cameraControls = null;
-        this.scene = scene;
+        this.pongScene = pongScene;
+        this.threeScene = pongScene.getThreeScene();
         
         this.camera = new THREE.PerspectiveCamera(45, width / height, 0.01, 10);
         this.camera.position.set(1, 2, 3);
         this.camera.lookAt(new THREE.Vector3(0,0,0));
-        this.scene.add(this.camera);
+        this.threeScene.add(this.camera);
         
-//        this.light = new THREE.AmbientLight( 0x404040 ); // soft white light
 	this.light = new THREE.PointLight(0xffffff);
 	this.light.position.set(0,3,0);
-        this.scene.add(this.light);
+        this.threeScene.add(this.light);
 
         this.threeRenderer = new THREE.WebGLRenderer();
         this.threeRenderer.setSize(width, height);
@@ -35,12 +36,12 @@ var PongRenderer = new JS.Class({
     makeNormalBox: function(){
         this._normalBox = new NormalBox();
         this._normalBox.setVisible(true);
-        this.scene.add(this._normalBox.getThreeMesh());
+        this.threeScene.add(this._normalBox.getThreeMesh());
     },
     
     makeAxis: function(){
         this._axisHelper = new THREE.AxisHelper(1);
-        this.scene.add(this._axisHelper);
+        this.threeScene.add(this._axisHelper);
     },
     
     setCameraControls: function(){
@@ -48,12 +49,38 @@ var PongRenderer = new JS.Class({
     },
     
     render: function(){
-        this.threeRenderer.render(this.scene, this.camera);
+        this.threeRenderer.render(this.threeScene, this.camera);
     },
     
     update: function(){
+        //camera control with mouse (for tests)
         if(this.cameraControls !== null)
             this.cameraControls.update();
+        
+        //ball motion
+        //formule de calcul de delta x
+        //obtenu par soustraction de la formule x(t) = 1/2*a*t^2 + v0*t + x0
+        //delta x = x2 - x1
+        //a: vecteur accélération
+        //v: vecteur vitesse
+        // x2 - x1 = 1/2*a*(t2^2 - t1^2) + v0*(t2 - t1)
+        var currentTime = (new Date()).getTime();
+        if(this.lastTime === 0)
+            this.lastTime = currentTime;
+        var timeDelta = currentTime - this.lastTime;
+        var squaredTimeDelta = currentTime*currentTime - this.lastTime*this.lastTime;
+        
+        var a = (new THREE.Vector3).copy(this.pongScene.ball.acceleration());
+        var v = (new THREE.Vector3).copy(this.pongScene.ball.speed());
+        var positionDelta, speeDelta;
+        
+        speeDelta = (new THREE.Vector3()).copy(a).multiplyScalar(timeDelta);
+        positionDelta = (new THREE.Vector3()).copy(a).multiplyScalar(0.5*squaredTimeDelta).add( v.multiplyScalar(timeDelta) );
+        
+        this.pongScene.ball.translate(positionDelta);
+        //this.pongScene.ball.speed().add(speeDelta);
+        
+        this.lastTime = currentTime;
     },
     
     width: function(){

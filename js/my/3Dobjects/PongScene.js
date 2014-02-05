@@ -19,11 +19,13 @@ var PongScene = new JS.Class({
     groundHeight: 0.5,
     ballRadius: 0.01,
     ballMass: 500, //en grammes
+    initialSpeed: new THREE.Vector3(0.0001,0,0),
+    initialAcceleration: new THREE.Vector3(0,0,0),
     
     initialize: function(){
         this.walls = new Array();
 
-        this.ball = new Ball(this.ballRadius, 0, 0, 0, this.ballMass, 0, 0);
+        this.ball = new Ball(this.ballRadius, 0, 0, 0, this.ballMass, this.initialAcceleration, this.initialSpeed);
         this.ball.setY(-0.03);
         
         this.walls[0] = new Wall('wall-left', 0,0,this.groundHeight/2, this.wallWidth, this.wallHeight, this.wallThickness);

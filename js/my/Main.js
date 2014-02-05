@@ -15,7 +15,7 @@ function animate()
 
 window.onload = function(){
     var pongScene = new PongScene();
-    renderer = new PongRenderer("view", window.innerWidth, window.innerHeight, pongScene.getThreeScene());
+    renderer = new PongRenderer("view", window.innerWidth, window.innerHeight, pongScene);
     
     renderer.setCameraControls();
     renderer.makeNormalBox();
