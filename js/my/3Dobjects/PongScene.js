@@ -20,7 +20,7 @@ var PongScene = new JS.Class({
     ballRadius: 0.01,
     ballMass: 500, //en grammes
     initialSpeed: new THREE.Vector3(0.0001,0,0),
-    initialAcceleration: new THREE.Vector3(0,0,0),
+    initialAcceleration: new THREE.Vector3(0.0001,0,0),
     
     initialize: function(){
         this.walls = new Array();

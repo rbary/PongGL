@@ -23,5 +23,15 @@ window.onload = function(){
     
     renderer.setCameraPosition(pongScene.wallWidth/2+0.35, 0.4, 0);
     
+//    renderer.render();
+//    renderer.update();
+//    renderer.render();
+//    renderer.update();
+//    renderer.render();
+//    renderer.update();
+//    renderer.render();
+//    renderer.update();
+//    renderer.render();
+//    renderer.update();
     animate();
 };

@@ -68,17 +68,22 @@ var PongRenderer = new JS.Class({
         if(this.lastTime === 0)
             this.lastTime = currentTime;
         var timeDelta = currentTime - this.lastTime;
-        var squaredTimeDelta = currentTime*currentTime - this.lastTime*this.lastTime;
+        var squaredTimeDelta = (currentTime*currentTime - this.lastTime*this.lastTime)/1000000000000; //this divisio because gettime is millisecondes, and the formula is secondes
         
         var a = (new THREE.Vector3).copy(this.pongScene.ball.acceleration());
         var v = (new THREE.Vector3).copy(this.pongScene.ball.speed());
-        var positionDelta, speeDelta;
+        var positionDelta;
         
-        speeDelta = (new THREE.Vector3()).copy(a).multiplyScalar(timeDelta);
+        var speeDelta = (new THREE.Vector3()).copy(a).multiplyScalar(timeDelta);
         positionDelta = (new THREE.Vector3()).copy(a).multiplyScalar(0.5*squaredTimeDelta).add( v.multiplyScalar(timeDelta) );
         
         this.pongScene.ball.translate(positionDelta);
-        //this.pongScene.ball.speed().add(speeDelta);
+        this.pongScene.ball.speed().add(speeDelta);
+        
+//        msg = "a:("+this.pongScene.ball.acceleration().x+","+this.pongScene.ball.acceleration().y+","+this.pongScene.ball.acceleration().z+")\n";
+//        msg += "v:("+this.pongScene.ball.speed().x+","+this.pongScene.ball.speed().y+","+this.pongScene.ball.speed().z+")\n";
+//        msg += "position:("+this.pongScene.ball.position().x+","+this.pongScene.ball.position().y+","+this.pongScene.ball.position().z+")\n";
+//        console.log(msg);
         
         this.lastTime = currentTime;
     },
