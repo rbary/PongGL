@@ -4,26 +4,24 @@
  * and open the template in the editor.
  */
 
-var SceneMetrics = {
-    WorldSize: new THREE.Vector3(2, 2, 2),
-    WallThickness: 0.05,
-    WallSurfaceRatio: 0.02
-};
-
 
 var PongScene = new JS.Class({
     wallWidth: 0.7,
     wallHeight: 0.3,
     wallThickness: 0.02,
+    batWidth: 0.3,
+    batHeight: 0.03,
+    batThickness: 0.03,
     groundWidth: 0.7,
     groundHeight: 0.5,
     ballRadius: 0.01,
     ballMass: 500, //en grammes
     initialSpeed: new THREE.Vector3(0.0001,0,0),
-    initialAcceleration: new THREE.Vector3(0.0001,0,0),
+    initialAcceleration: new THREE.Vector3(0,0,0),
     
     initialize: function(){
         this.walls = new Array();
+        this.bats = new Array();
 
         this.ball = new Ball(this.ballRadius, 0, 0, 0, this.ballMass, this.initialAcceleration, this.initialSpeed);
         this.ball.setY(-0.03);
@@ -34,6 +32,9 @@ var PongScene = new JS.Class({
         this.walls[2] = new Wall('ground', 0,0,0, this.groundWidth, this.wallThickness, this.groundHeight);
         this.walls[2].setY(-0.05);
         
+        this.bats[0] = new Wall('playersBat', this.groundWidth/2,-0.03,0, this.batThickness, this.batHeight, this.batWidth);
+        this.bats[1] = new Wall('cpuBat', -this.groundWidth/2,-0.03,0, this.batThickness, this.batHeight, this.batWidth);
+        
         this.scene = new THREE.Scene();
         
         this.scene.add(this.ball.getThreeMesh());
@@ -41,6 +42,9 @@ var PongScene = new JS.Class({
         this.scene.add(this.walls[0].getThreeMesh());
         this.scene.add(this.walls[1].getThreeMesh());
         this.scene.add(this.walls[2].getThreeMesh());
+
+        this.scene.add(this.bats[0].getThreeMesh());
+        this.scene.add(this.bats[1].getThreeMesh());
     },
     
     getThreeScene: function(){

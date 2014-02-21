@@ -15,8 +15,6 @@ var PongRenderer = new JS.Class({
         this.threeScene = pongScene.getThreeScene();
         
         this.camera = new THREE.PerspectiveCamera(45, width / height, 0.01, 10);
-        this.camera.position.set(1, 2, 3);
-        this.camera.lookAt(new THREE.Vector3(0,0,0));
         this.threeScene.add(this.camera);
         
 	this.light = new THREE.PointLight(0xffffff);
@@ -52,18 +50,15 @@ var PongRenderer = new JS.Class({
         this.threeRenderer.render(this.threeScene, this.camera);
     },
     
-    update: function(){
-        //camera control with mouse (for tests)
-        if(this.cameraControls !== null)
-            this.cameraControls.update();
-        
-        //ball motion
-        //formule de calcul de delta x
-        //obtenu par soustraction de la formule x(t) = 1/2*a*t^2 + v0*t + x0
-        //delta x = x2 - x1
-        //a: vecteur accélération
-        //v: vecteur vitesse
-        // x2 - x1 = 1/2*a*(t2^2 - t1^2) + v0*(t2 - t1)
+    /*** ball motion
+    * formule de calcul de delta x
+    * obtenu par soustraction de la formule x(t) = 1/2*a*t^2 + v0*t + x0
+    * delta x = x2 - x1
+    * a: vecteur accélération
+    * v: vecteur vitesse
+    * x2 - x1 = 1/2*a*(t2^2 - t1^2) + v0*(t2 - t1)
+    ***/
+    _moveBall: function(){
         var currentTime = (new Date()).getTime();
         if(this.lastTime === 0)
             this.lastTime = currentTime;
@@ -80,12 +75,15 @@ var PongRenderer = new JS.Class({
         this.pongScene.ball.translate(positionDelta);
         this.pongScene.ball.speed().add(speeDelta);
         
-//        msg = "a:("+this.pongScene.ball.acceleration().x+","+this.pongScene.ball.acceleration().y+","+this.pongScene.ball.acceleration().z+")\n";
-//        msg += "v:("+this.pongScene.ball.speed().x+","+this.pongScene.ball.speed().y+","+this.pongScene.ball.speed().z+")\n";
-//        msg += "position:("+this.pongScene.ball.position().x+","+this.pongScene.ball.position().y+","+this.pongScene.ball.position().z+")\n";
-//        console.log(msg);
-        
         this.lastTime = currentTime;
+    },
+    
+    update: function(){
+        //camera control with mouse (for tests)
+        if(this.cameraControls !== null)
+            this.cameraControls.update();
+        
+        this._moveBall();
     },
     
     width: function(){

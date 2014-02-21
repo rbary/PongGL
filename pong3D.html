@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Pong in WebGL</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width">
+        
+        <!-- ****** Libraries ***** -->
+        <!-- three.js -->
+        <script src="src/lib/three.js/Three.min.js"></script>
+        <script src="src/lib/three.js/OrbitControls.js"></script>
+
+        <!-- THREEx.js -->
+        <script src="src/lib/THREEx/THREEx.FullScreen.js"></script>
+        <script src="src/lib/THREEx/THREEx.WindowResize.js"></script>
+        <script src="src/lib/THREEx/THREEx.KeyboardState.js"></script>
+
+        <!-- JSClass -->
+        <script type="text/javascript">
+            JSCLASS_PATH = "src/lib/JS.Class/min";
+        </script>
+        <script src="src/lib/JS.Class/min/loader.js"></script>
+        <script src="src/lib/JS.Class/min/core.js"></script>
+        <script src="src/js/jsclassConfig.js"></script>
+        
+        <!-- ****** My code ***** -->
+        <script type="text/javascript">
+            'use strict';
+        </script>
+        <script src="src/js/3Dobjects/IDynamic.js"></script>
+        <script src="src/js/3Dobjects/Abstract3Dobject.js"></script>
+        <script src="src/js/3Dobjects/AbstractDynamic3Dobject.js"></script>
+        <script src="src/js/3Dobjects/NormalBox.js"></script>
+        <script src="src/js/3Dobjects/Ball.js"></script>
+        <script src="src/js/3Dobjects/Wall.js"></script>
+        <script src="src/js/3Dobjects/PongScene.js"></script>
+        <script src="src/js/3Dobjects/PongRenderer.js"></script>
+
+        <script src="src/js/Main.js"></script>
+    </head>
+
+    <body>
+        <div id="view"></div>
+    </body>
+</html>
