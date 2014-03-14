@@ -13,20 +13,35 @@ function animate()
     renderer.update();
 }
 
-window.onload = function(){
-    var pongScene = new PongScene();
+window.onload = function()
+{
+    try
+    {
+        var pongScene = new PongScene();
+        var kEngine = new KinematicEngine();
+        kEngine.bindScene(pongScene);
 
-    var kEngine = new KinematicEngine(pongScene);
-    kEngine.bindScene(pongScene);
+        renderer = new PongRenderer("view", window.innerWidth, window.innerHeight);
+        renderer.bindComponents(pongScene, kEngine);
+        
+        console.log("type of renderer is a PongRenderer "+renderer.isA(PongScene));
+
+        renderer.setCameraControls();
+        renderer.makeNormalBox();
+        renderer.makeAxis();
+
+        renderer.setCameraPosition(pongScene.wallWidth/2+0.4, 0.4, 0);
+
+        animate();
+    }
     
-    renderer = new PongRenderer("view", window.innerWidth, window.innerHeight);
-    renderer.bindComponents(pongScene, kEngine);
-    
-    renderer.setCameraControls();
-    renderer.makeNormalBox();
-    renderer.makeAxis();
-    
-    renderer.setCameraPosition(pongScene.wallWidth/2+0.4, 0.4, 0);
-    
-    animate();
+    catch(exception)
+    {
+        console.log(exception.message);
+    }
 };
+
+function type(obj){
+	var text = obj.constructor.toString();
+	return text.match(/function (.*)\(/)[1];
+}

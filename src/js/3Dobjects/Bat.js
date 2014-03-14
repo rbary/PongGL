@@ -7,10 +7,10 @@
 
 
 var Bat = new JS.Class(AbstractDynamic3Dobject, {
-    initialize: function(name, xPos, yPos, zPos, width, height, depth){
+    initialize: function(name, xPos, yPos, zPos, width, height, depth, mass, acceleration, initialSpeed){
         var geometry = new THREE.CubeGeometry(width, height, depth);
         var material = new THREE.MeshPhongMaterial({ color: 0xcccccc, wireframe: false });
         
-        this.callSuper(name, xPos, yPos, zPos, geometry, material);
+        this.callSuper(name, xPos, yPos, zPos, geometry, material, mass, acceleration, initialSpeed);
     }
 });

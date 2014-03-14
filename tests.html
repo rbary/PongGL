@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Tests javascript</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width">
+        <script type="text/javascript">
+            'use strict';
+            var arr = {a : 1};
+            var x;
+            var y = null;
+            
+            function f(i,j){i = j};
+            
+            console.log([3].length);
+            console.log([].constructor === Object);
+            [x,y] = [1, 2];
+            f(x, 345);
+            console.log("y: "+y);
+            console.log(arr.c);
+            console.log(x);
+            console.log(x === undefined);
+        </script>
+    </head>
+    <body>
+        <div>Tests javascript</div>
+    </body>
+</html>

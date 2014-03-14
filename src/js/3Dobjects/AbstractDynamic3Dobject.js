@@ -17,7 +17,8 @@
  */
 // must implement IDynamic
 var AbstractDynamic3Dobject = new JS.Class(Abstract3Doject, {
-    initialize: function(name, xPos, yPos, zPos, geometry, material, mass, acceleration, initialSpeed){
+    initialize: function(name, xPos, yPos, zPos, geometry, material, mass, acceleration, initialSpeed)
+    {
         this.callSuper(name, xPos, yPos, zPos, geometry, material);
         this._mass = mass;
         this._acc = (new THREE.Vector3()).copy(acceleration);
@@ -38,23 +39,29 @@ var AbstractDynamic3Dobject = new JS.Class(Abstract3Doject, {
         this._rayCaster = new THREE.Raycaster();
     },
     
-    setMass : function(newMass){
+    setMass : function(newMass)
+    {
         this._mass = newMass;
     },
-    setSpeed : function(speed){
+    setSpeed : function(speed)
+    {
         this._speed = (new THREE.Vector3()).copy(speed);
     },
-    setAcceleration : function(acc){
+    setAcceleration : function(acc)
+    {
         this._acc = (new THREE.Vector3()).copy(acc);
     },
-    setColliders: function(collidersList){
+    setColliders: function(collidersList)
+    {
         this._obstacles = collidersList;
     },
-    addCollider : function(collider){
+    addCollider : function(collider)
+    {
         this._obstacles.push(collider);
     },
     
-    checkCollisions: function(){
+    checkCollisions: function()
+    {
         //test bounding boxes first
         var intersect = {}; // raaaa : possible issue --> local reference
         var collision = false;
@@ -89,16 +96,20 @@ var AbstractDynamic3Dobject = new JS.Class(Abstract3Doject, {
         return intersect;
     },
     
-    mass : function(){
+    mass : function()
+    {
         return this._mass;
     },
-    speed : function(){
+    speed : function()
+    {
         return this._speed;
     },
-    acceleration : function(){
+    acceleration : function()
+    {
         return this._acc;
     },
-    colliders : function(){
+    colliders : function()
+    {
         return this._obstacles;
     }
 });

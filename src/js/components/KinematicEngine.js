@@ -6,13 +6,15 @@
 
 
 var KinematicEngine = new JS.Class({
-    initialize: function(){
+    initialize: function()
+    {
         this._lastTime = 0;
         this._pongScene = null;
     },
     
-    bindScene: function(pongScene){
-        this._pongscene = pongScene;
+    bindScene: function(pongScene)
+    {
+        this._pongScene = pongScene;
     },
 
     /*** ball motion
@@ -23,7 +25,8 @@ var KinematicEngine = new JS.Class({
     * v: vecteur vitesse
     * x2 - x1 = 1/2*a*(t2^2 - t1^2) + v0*(t2 - t1)
     ***/
-    moveBall: function(){
+    moveBall: function()
+    {
         var currentTime = (new Date()).getTime();
         if(this._lastTime === 0)
             this._lastTime = currentTime;
@@ -45,5 +48,6 @@ var KinematicEngine = new JS.Class({
         this._lastTime = currentTime;
     },
     
-    moveBat: function(bat, xdelta){}
+    moveBat: function(bat, xdelta)
+    {}
 });

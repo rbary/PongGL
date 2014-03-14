@@ -39,8 +39,8 @@ var PongRenderer = new JS.Class({
     },
     
     bindComponents: function(pongScene, kinematicEngine){
-        bindScene(pongScene);
-        bindKinematicEngine(kinematicEngine);
+        this.bindScene(pongScene);
+        this.bindKinematicEngine(kinematicEngine);
     },
     
     makeNormalBox: function(){

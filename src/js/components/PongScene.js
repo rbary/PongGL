@@ -19,7 +19,8 @@ var PongScene = new JS.Class({
     initialSpeed: new THREE.Vector3(0.0001,0,0),
     initialAcceleration: new THREE.Vector3(0,0,0),
     
-    initialize: function(){
+    initialize: function()
+    {
         this.walls = new Array();
         this.bats = new Array();
 
@@ -32,8 +33,8 @@ var PongScene = new JS.Class({
         this.walls[2] = new Wall('ground', 0,0,0, this.groundWidth, this.wallThickness, this.groundHeight);
         this.walls[2].setY(-0.05);
         
-        this.bats[0] = new Bat('playersBat', this.groundWidth/2,-0.03,0, this.batThickness, this.batHeight, this.batWidth);
-        this.bats[1] = new Bat('cpuBat', -this.groundWidth/2,-0.03,0, this.batThickness, this.batHeight, this.batWidth);
+        this.bats[0] = new Bat('playersBat', this.groundWidth/2,-0.03,0, this.batThickness, this.batHeight, this.batWidth, 0,0,0);
+        this.bats[1] = new Bat('cpuBat', -this.groundWidth/2,-0.03,0, this.batThickness, this.batHeight, this.batWidth, 0,0,0);
         
         this.scene = new THREE.Scene();
         
@@ -47,7 +48,8 @@ var PongScene = new JS.Class({
         this.scene.add(this.bats[1].getThreeMesh());
     },
     
-    getThreeScene: function(){
+    getThreeScene: function()
+    {
         return this.scene;
     }
 });
