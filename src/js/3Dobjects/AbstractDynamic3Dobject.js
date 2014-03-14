@@ -22,6 +22,20 @@ var AbstractDynamic3Dobject = new JS.Class(Abstract3Doject, {
         this._mass = mass;
         this._acc = (new THREE.Vector3()).copy(acceleration);
         this._speed = (new THREE.Vector3()).copy(initialSpeed);
+        this._obstacles = [];
+        this._collisionTolerance = 0.03;
+
+        this._rays = [
+            new THREE.Vector3(0, 0, 1), // z axis ?
+            new THREE.Vector3(1, 0, 0), // x axis ?
+            new THREE.Vector3(1, 0, 1),
+            new THREE.Vector3(1, 0, -1),
+            new THREE.Vector3(0, 0, -1),
+            new THREE.Vector3(-1, 0, -1),
+            new THREE.Vector3(-1, 0, 0),
+            new THREE.Vector3(-1, 0, 1)
+        ];
+        this._rayCaster = new THREE.Raycaster();
     },
     
     setMass : function(newMass){
@@ -33,6 +47,47 @@ var AbstractDynamic3Dobject = new JS.Class(Abstract3Doject, {
     setAcceleration : function(acc){
         this._acc = (new THREE.Vector3()).copy(acc);
     },
+    setColliders: function(collidersList){
+        this._obstacles = collidersList;
+    },
+    addCollider : function(collider){
+        this._obstacles.push(collider);
+    },
+    
+    checkCollisions: function(){
+        //test bounding boxes first
+        var intersect = {}; // raaaa : possible issue --> local reference
+        var collision = false;
+        var i = 0;
+        while(i < this._obstacles.length && !collision)
+        {
+            collision = this.getBoundingBox().isIntersectionBox(this._obstacles[i].getBoundingBox());
+            
+            if(collision)
+            {
+                intersect = {'':0,}; //define an enum for collision types (penetratre, contact, late)
+            }
+            
+            ++i;
+        }
+        
+        //Raycasting
+        i = 0;
+        while(i < this._rays && !collision)
+        {
+            this._rayCaster.set(this._mesh.position, this._rays[i]);
+            var allIntersects = this._rayCaster.intersectObjects(this._obstacles);
+            
+            if(allIntersects.length > 0 && allIntersects[0].distance > this._collisionTolerance)
+            {
+                collision = true;
+                intersect = allIntersects[0];
+            }
+            ++i;
+        }
+        
+        return intersect;
+    },
     
     mass : function(){
         return this._mass;
@@ -42,5 +97,8 @@ var AbstractDynamic3Dobject = new JS.Class(Abstract3Doject, {
     },
     acceleration : function(){
         return this._acc;
+    },
+    colliders : function(){
+        return this._obstacles;
     }
 });

@@ -8,5 +8,7 @@
 var IDynamic = new JS.Interface([
     'mass', 'setMass',
     'acceleration', 'setAcceleration',
-    'speed', 'setSpeed'
+    'speed', 'setSpeed',
+    'colliders', 'addCollider', 'setColliders',
+    'checkCollisions'
 ]);

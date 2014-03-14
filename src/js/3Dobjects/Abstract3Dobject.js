@@ -15,6 +15,8 @@ var Abstract3Doject = new JS.Class({
         this._name = name;
         this._mesh = new THREE.Mesh(geometry, material);
         this._mesh.position.set(xPos, yPos, zPos);
+        
+        this._mesh.geometry.computeBoundingBox();
     },
     
     setName: function(name){
@@ -38,6 +40,9 @@ var Abstract3Doject = new JS.Class({
     setRotation: function(xRot, yRot, zRot){
         this._mesh.rotation.set(xRot, yRot, zRot);
     },
+    computeBondingBox : function(){
+        this._mesh.geometry.computeBoundingBox();
+    },
 
     name: function(){
         return this._name;
@@ -59,5 +64,9 @@ var Abstract3Doject = new JS.Class({
     },
     getThreeMesh: function(){
         return this._mesh;
+    },
+    getBoundingBox : function(){
+        var myBb = this._mesh.geometry.boundingBox.clone();
+        return new THREE.Box3(myBb.min, myBb.max);
     }
 });

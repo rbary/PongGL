@@ -5,7 +5,6 @@
  */
 
 
-// must implement IDrawable
 var Ball = new JS.Class(AbstractDynamic3Dobject, {
     initialize: function(radius, xPos, yPos, zPos, mass, acceleration, initialSpeed){
         var geometry = new THREE.SphereGeometry(radius, 10, 10, 0, Math.PI*2, 0, Math.PI*2);

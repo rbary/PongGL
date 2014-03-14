@@ -7,19 +7,15 @@
 
 var PongRenderer = new JS.Class({
     initialize: function(htmlContainerId, width, height, pongScene){
-        this._width = width;
-        this._height = height;
+        this.width = width;
+        this.height = height;
         this.lastTime = 0;
         this.cameraControls = null;
-        this.pongScene = pongScene;
-        this.threeScene = pongScene.getThreeScene();
         
         this.camera = new THREE.PerspectiveCamera(45, width / height, 0.01, 10);
-        this.threeScene.add(this.camera);
         
 	this.light = new THREE.PointLight(0xffffff);
 	this.light.position.set(0,3,0);
-        this.threeScene.add(this.light);
 
         this.threeRenderer = new THREE.WebGLRenderer();
         this.threeRenderer.setSize(width, height);
@@ -29,6 +25,22 @@ var PongRenderer = new JS.Class({
 
         THREEx.WindowResize(this, this.camera);
         this.fullScreenBindedKey = THREEx.FullScreen.bindKey({charCode: 'f'.charCodeAt(0)});        
+    },
+    
+    bindScene: function(pongScene){
+        this.pongScene = pongScene;
+        this.threeScene = pongScene.getThreeScene();
+        this.threeScene.add(this.camera);
+        this.threeScene.add(this.light);
+    },
+    
+    bindKinematicEngine: function(kinematicEngine){
+        this.kEngine = kinematicEngine;
+    },
+    
+    bindComponents: function(pongScene, kinematicEngine){
+        bindScene(pongScene);
+        bindKinematicEngine(kinematicEngine);
     },
     
     makeNormalBox: function(){
@@ -50,53 +62,25 @@ var PongRenderer = new JS.Class({
         this.threeRenderer.render(this.threeScene, this.camera);
     },
     
-    /*** ball motion
-    * formule de calcul de delta x
-    * obtenu par soustraction de la formule x(t) = 1/2*a*t^2 + v0*t + x0
-    * delta x = x2 - x1
-    * a: vecteur accélération
-    * v: vecteur vitesse
-    * x2 - x1 = 1/2*a*(t2^2 - t1^2) + v0*(t2 - t1)
-    ***/
-    _moveBall: function(){
-        var currentTime = (new Date()).getTime();
-        if(this.lastTime === 0)
-            this.lastTime = currentTime;
-        var timeDelta = currentTime - this.lastTime;
-        var squaredTimeDelta = (currentTime*currentTime - this.lastTime*this.lastTime)/1000000000000; //this divisio because gettime is millisecondes, and the formula is secondes
-        
-        var a = (new THREE.Vector3).copy(this.pongScene.ball.acceleration());
-        var v = (new THREE.Vector3).copy(this.pongScene.ball.speed());
-        var positionDelta;
-        
-        var speeDelta = (new THREE.Vector3()).copy(a).multiplyScalar(timeDelta);
-        positionDelta = (new THREE.Vector3()).copy(a).multiplyScalar(0.5*squaredTimeDelta).add( v.multiplyScalar(timeDelta) );
-        
-        this.pongScene.ball.translate(positionDelta);
-        this.pongScene.ball.speed().add(speeDelta);
-        
-        this.lastTime = currentTime;
-    },
-    
     update: function(){
         //camera control with mouse (for tests)
         if(this.cameraControls !== null)
             this.cameraControls.update();
         
-        this._moveBall();
+        this.kEngine.moveBall();
     },
     
     width: function(){
-        return this._width;
+        return this.width;
     },
     
     height: function(){
-        return this._height;
+        return this.height;
     },
     
     setSize: function(width, height){
-        this._width = width;
-        this._height = height;
+        this.width = width;
+        this.height = height;
     },
     
     setCameraPosition: function(x, y, z){
