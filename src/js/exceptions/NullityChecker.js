@@ -44,8 +44,11 @@ var NullityChecker = new JS.Class({
     /**
      * @param {list of dict} parameters list of parameters, in the form [{name:'param1', value:value1}, {name:'param2', value:value2}]
      */
-    check: function(parameters)
+    check: function(parameters, methodName)
     {
+        
+        if(methodName instanceof String && methodName !== '')
+            this.setMethodName(methodName);
 
         if(!parameters)
         {
@@ -56,6 +59,46 @@ var NullityChecker = new JS.Class({
         if(parameters.constructor !== Array)
         {
             var message = "NullityChecker.check(for "+this.className+"."+this.methodName+"): argument 'parameters' must be an array of the form form [{name:'param1', value:value1}, {name:'param2', value:value2}]";
+            throw new GenericException(message, "IllegalArgument");
+        }
+
+        var message = this.className+"."+this.methodName+": ";
+        var isFaulty = false;
+        var faultyState = "";
+        for(var i=0; i < parameters.length; ++i)
+        {
+            var param = parameters[i];
+            this._checkFormat(param);
+            
+            if(param === null || param === undefined)
+            {
+                faultyState = (param === undefined) ? "undefined" : "null";
+                message += "argument at position "+i+" in the given arguments list is "+faultyState;
+                isFaulty = true;
+            }
+        }
+        
+        if(isFaulty)
+        {
+            throw new GenericException(message, "IllegalArguments");
+        }
+    },
+    
+    /**
+     * @param {list of dict} parameters list of parameters, in the form [{name:'param1', value:value1}, {name:'param2', value:value2}]
+     */
+    checkNamed: function(parameters)
+    {
+
+        if(!parameters)
+        {
+            var message = "NullityChecker.checkNamed(for "+this.className+"."+this.methodName+"): argument 'parameters' can't be evaluated";
+            throw new GenericException(message, "IllegalArgument");
+        }
+        
+        if(parameters.constructor !== Array)
+        {
+            var message = "NullityChecker.checkNamed(for "+this.className+"."+this.methodName+"): argument 'parameters' must be an array of the form form [{name:'param1', value:value1}, {name:'param2', value:value2}]";
             throw new GenericException(message, "IllegalArgument");
         }
 

@@ -9,18 +9,64 @@ and open the template in the editor.
         <title>Tests javascript</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width">
+        
+        <!-- ****** Libraries ***** -->
+        <!-- three.js -->
+        <script src="src/lib/three.js/Three.js"></script>
+        <script src="src/lib/three.js/OrbitControls.js"></script>
+
+        <!-- THREEx.js -->
+        <script src="src/lib/THREEx/THREEx.FullScreen.js"></script>
+        <script src="src/lib/THREEx/THREEx.WindowResize.js"></script>
+        <script src="src/lib/THREEx/THREEx.KeyboardState.js"></script>
+
+        <!-- JSClass -->
+        <script type="text/javascript">
+            JSCLASS_PATH = "src/lib/JS.Class/min";
+        </script>
+        <script src="src/lib/JS.Class/min/loader.js"></script>
+        <script src="src/lib/JS.Class/min/core.js"></script>
+        <script src="src/js/jsclassConfig.js"></script>
+        
+        <!-- ****** My code ***** -->
+        <script type="text/javascript">
+            'use strict';
+        </script>
+        <script src="src/js/exceptions/GenericException.js"></script>
+        <script src="src/js/exceptions/NullityChecker.js"></script>
+        <script src="src/js/3Dobjects/IDynamic.js"></script>
+        <script src="src/js/3Dobjects/Abstract3Dobject.js"></script>
+        <script src="src/js/3Dobjects/AbstractDynamic3Dobject.js"></script>
+        <script src="src/js/3Dobjects/NormalBox.js"></script>
+        <script src="src/js/3Dobjects/Ball.js"></script>
+        <script src="src/js/3Dobjects/Bat.js"></script>
+        <script src="src/js/3Dobjects/Wall.js"></script>
+
+        <script src="src/js/components/PongScene.js"></script>
+        <script src="src/js/components/GameStateManager.js"></script>
+        <script src="src/js/components/CollisionDetector.js"></script>
+        <script src="src/js/components/CollisionReactor.js"></script>
+        <script src="src/js/components/KinematicEngine.js"></script>
+        <script src="src/js/components/PongRenderer.js"></script>
         <script type="text/javascript">
             'use strict';
             var arr = {a : 1};
             var x;
             var y = null;
             
-            function f(i,j){i = j};
+            function f(i,j){i = j; console.log("arguments[0]: "+arguments[0]);}
+            
+            console.log([1].constructor === Array);
+            console.log([].constructor === Object);
+            console.log("(new Ball(1, 0, 0, 0, 1, 1, 1)).constructor === AbstractDynamic3Dobject: "+((new Ball(1, 0, 0, 0, 1, 1, 1)).constructor === AbstractDynamic3Dobject));
+            console.log("(new Ball(1, 0, 0, 0, 1, 1, 1)).constructor === Ball: "+((new Ball(1, 0, 0, 0, 1, 1, 1)).constructor === Ball));
+            console.log("(new Ball(1, 0, 0, 0, 1, 1, 1)) instanceof AbstractDynamic3Dobject: "+((new Ball(1, 0, 0, 0, 1, 1, 1)) instanceof AbstractDynamic3Dobject));
+            //console.log("(new Ball(1, 0, 0, 0, 1, 1, 1)) instanceof 1 "+((new Ball(1, 0, 0, 0, 1, 1, 1)) instanceof 1));
             
             console.log([3].length);
-            console.log([].constructor === Object);
             [x,y] = [1, 2];
-            f(x, 345);
+            var c = new f(x, 345);
+            var d = new String();
             console.log("y: "+y);
             console.log(arr.c);
             console.log(x);
