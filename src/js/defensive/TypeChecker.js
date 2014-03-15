@@ -5,59 +5,42 @@
  */
 
 
-var TypeChecker = new JS.Class({
+var TypeChecker = new JS.Class(AbstractChecker, {
     initialize : function(className, methodName)
     {
-        this.className = className ? className : "'Unknow class'";
-        this.methodName = methodName ? methodName : "'Unknow method'";
-    },
-    
-    setClassName : function(className)
-    {
-        this.className = className ? className : "'Unknow class'";
-    },
-    
-    setMethodName : function(methodName)
-    {
-        this.methodName = methodName ? methodName : "'Unknow class'";
-    },
-    
-    setCallerNames : function(className, methodName)
-    {
-        this.className = className ? className : "'Unknow class'";
-        this.methodName = methodName ? methodName : "'Unknow class'";
+        this.callSuper(className, methodName);
     },
     
     _checkFormat : function(args, types)
     {
         if(args === undefined)
         {
-            var message = "TypeChecker._checkFormat(for "+this.className+"."+this.methodName+"): parameter 'args' is undefined";
-            throw new GenericException(message, 'IllegalArgument');
+            var message = "in "+this.className+"."+this.methodName+",  parameter 'args' is undefined";
+            throw new IllegalArgumentException(message, 'TypeChecker', '_checkFormat');
         }
 
         if(args.constructor !== Array)
         {
             var message = "TypeChecker._checkFormat(for "+this.className+"."+this.methodName+"parameter 'args' must be an array";
-            throw new GenericException(message, 'IllegalArgument');
+            throw new IllegalArgumentException(message, 'TypeChecker', '_checkFormat');
         }
 
         if(types === undefined)
         {
             var message = "TypeChecker._checkFormat(for "+this.className+"."+this.methodName+"parameter 'types' is undefined";
-            throw new GenericException(message, 'IllegalArgument');
+            throw new IllegalArgumentException(message, 'TypeChecker', '_checkFormat');
         }
 
         if(types.constructor !== Array)
         {
             var message = "TypeChecker._checkFormat(for "+this.className+"."+this.methodName+"parameter 'types' must be an array";
-            throw new GenericException(message, 'IllegalArgument');
+            throw new IllegalArgumentException(message, 'TypeChecker', '_checkFormat');
         }
 
         if(args.length !== types.length)
         {
             var message = "TypeChecker._checkFormat(for "+this.className+"."+this.methodName+"'args' and 'types' must be of the same number";
-            throw new GenericException(message, 'LogicError');
+            throw new LogicErrorException(message, 'TypeChecker', '_checkFormat');
         }
     },
     
@@ -70,9 +53,9 @@ var TypeChecker = new JS.Class({
         if(methodName instanceof String && methodName !== '')
             this.methodName = methodName;
 
-        _checkFormat(args, types);
+        this._checkFormat(args, types);
         
-        var message = this.className+"."+this.methodName+": \n\t";
+        var message = "";
         var faulty = false;
         for(var i=0; i < types.length; ++i)
         {
@@ -87,6 +70,6 @@ var TypeChecker = new JS.Class({
         }
         
         if(faulty)
-            throw new GenericException(message, 'TypeError');
+            throw new TypeErrorException(message, this.className, this.methodName);
     }
 });

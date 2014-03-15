@@ -23,10 +23,6 @@ window.onload = function()
 
         renderer = new PongRenderer("view", window.innerWidth, window.innerHeight);
         renderer.bindComponents(pongScene, kEngine);
-        
-        console.log("renderer.constructor === PongRenderer: "+(renderer.constructor === PongRenderer));
-        console.log("type of renderer is a PongRenderer "+renderer.isA(PongScene));
-        console.log("type of renderer is "+typeof(PongRenderer));
 
         renderer.setCameraControls();
         renderer.makeNormalBox();
@@ -39,7 +35,8 @@ window.onload = function()
     
     catch(exception)
     {
-        console.log(exception.message);
+        console.log("\nLogging from Main.js\n");
+        console.log(exception.getMessage());
     }
 };
 

@@ -10,11 +10,12 @@
  * 
  * Abstract because new THREE.Mesh does not define the geometry and the material
  */
-var Abstract3Doject = new JS.Class({
+var Abstract3Doject = new JS.Class(__Base__, {
     initialize: function(name, xPos, yPos, zPos, geometry, material)
     {
-        this._preInitialize(name, xPos, yPos, zPos, geometry, material);
-        this._name = name;
+        this.callSuper(name);
+        this.checkArgs([xPos, yPos, zPos, geometry, material], [Number, Number, Number, THREE.Geometry, THREE.Material], 'initialize');
+        
         this._mesh = new THREE.Mesh(geometry, material);
         this._mesh.position.set(xPos, yPos, zPos);
         
@@ -23,38 +24,44 @@ var Abstract3Doject = new JS.Class({
     
     setName: function(name)
     {
-        (new NullityChecker('Abstract3Doject', 'setName')).check([{name:'name', value:name}]);
+        this.checkArgs(arguments, [String], 'setName');
         
         this._name = name;
     },
     setX: function(xPos)
     {
-        (new NullityChecker('Abstract3Doject', 'xPos')).check([{name:'xPos', value:xPos}]);
+        this.checkArgs(arguments, [Number], 'setX');
         
         this._mesh.position.x = xPos;
     },
-    setY: function(yPos){
-        (new NullityChecker('Abstract3Doject', 'yPos')).check([{name:'yPos', value:yPos}]);
+    setY: function(yPos)
+    {
+        this.checkArgs(arguments, [Number], 'setY');
         
         this._mesh.position.y = yPos;
     },
-    setZ: function(zPos){
-        (new NullityChecker('Abstract3Doject', 'zPos')).check([{name:'zPos', value:zPos}]);
+    setZ: function(zPos)
+    {
+        this.checkArgs(arguments, [Number], 'setZ');
         
         this._mesh.position.z = zPos;
     },
     setPosition: function(xPos, yPos, zPos)
     {
-        _preSetPosition(xPos, yPos, zPos);
+        this.checkArgs(arguments, [Number, Number, Number], 'setPosition');
         
         this._mesh.position.set(xPos, yPos, zPos);
     },
     translate: function(translationVector)
     {
+        this.checkArgs(arguments, [THREE.Vector3], 'translate');
+
         this._mesh.position.add(translationVector);
     },
     setRotation: function(xRot, yRot, zRot)
     {
+        this.checkArgs(arguments, [Number, Number, Number], 'setRotation');
+
         this._mesh.rotation.set(xRot, yRot, zRot);
     },
     computeBondingBox : function()
@@ -94,22 +101,5 @@ var Abstract3Doject = new JS.Class({
     {
         var myBb = this._mesh.geometry.boundingBox.clone();
         return new THREE.Box3(myBb.min, myBb.max);
-    },
-    
-    _preInitialize: function(name, xPos, yPos, zPos, geometry, material)
-    {
-        var parameters = [{name:'name', value:name}, {name:'xPos', value:xPos},
-            {name:'yPos', value:yPos}, {name:'zPos', value:zPos},
-            {name:'geometry', value:geometry}, {name:'material', value:material}];
-        
-        (new NullityChecker('Abstract3Doject', '_preInitialize')).check(parameters);
-    },
-    
-    _preSetPosition: function(xPos, yPos, zPos)
-    {
-        var parameters = [{name:'xPos', value:xPos}, {name:'yPos', value:yPos},
-                          {name:'zPos', value:zPos}];
-        
-        (new NullityChecker('Abstract3Doject', '_preSetPosition')).check(parameters);
     }
 });

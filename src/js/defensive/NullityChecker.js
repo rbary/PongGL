@@ -5,11 +5,11 @@
  */
 
 
-var NullityChecker = new JS.Class({
+var NullityChecker = new JS.Class(AbstractChecker, {
     initialize : function(className, methodName)
     {
-        this.className = (className) ? className : "'Unknown class'";
-        this.methodName = (methodName) ? methodName : "'Unknow method'";
+        this.callSuper(className, methodName);
+        
         this.isFaulty = false;
         this.faultyState = "";
     },
@@ -18,26 +18,26 @@ var NullityChecker = new JS.Class({
     {
         if(!param)
         {
-            var message = "NullityChecker.check._checkFormat(for "+this.className+"."+this.methodName+"): argument 'param' must not be null or undefined";
-            throw new GenericException(message, "IllegalArgument");
+            var message = "in "+this.className+"."+this.methodName+", argument 'param' must not be null or undefined";
+            throw new IllegalArgumentException(message, 'NullityChecker', '_checkFormat');
         }
 
         if(param.constructor !== Object)
         {
-            var message = "NullityChecker.check._checkFormat(for "+this.className+"."+this.methodName+"): argument 'param' must be an object of the form {name:'paramName', value:paramValue}";
-            throw new GenericException(message, "IllegalArgument");
+            var message = "in "+this.className+"."+this.methodName+", argument 'param' must be an object of the form {name:'paramName', value:paramValue}";
+            throw new IllegalArgumentException(message, 'NullityChecker', '_checkFormat');
         }
 
         if(!param.name)
         {
-            var message = "NullityChecker.check._checkFormat(for "+this.className+"."+this.methodName+"): argument 'param' must be an object of the form {name:'paramName', value:paramValue}.\n\t property 'name' is missing or null.";
-            throw new GenericException(message, "IllegalArgument");
+            var message = "in "+this.className+"."+this.methodName+", argument 'param' must be an object of the form {name:'paramName', value:paramValue}.\n\t property 'name' is missing or null.";
+            throw new IllegalArgumentException(message, 'NullityChecker', '_checkFormat');
         }
 
         if(param.value === undefined)
         {
-            var message = "NullityChecker.check._checkFormat(for "+this.className+"."+this.methodName+"): argument 'param' must be an object of the form {name:'paramName', value:paramValue}.\n\t property 'value' is missing.";
-            throw new GenericException(message, "IllegalArgument");
+            var message = "in "+this.className+"."+this.methodName+", argument 'param' must be an object of the form {name:'paramName', value:paramValue}.\n\t property 'value' is missing.";
+            throw new IllegalArgumentException(message, 'NullityChecker', '_checkFormat');
         }
     },
     
@@ -52,14 +52,14 @@ var NullityChecker = new JS.Class({
 
         if(!parameters)
         {
-            var message = "NullityChecker.check(for "+this.className+"."+this.methodName+"): argument 'parameters' can't be evaluated";
-            throw new GenericException(message, "IllegalArgument");
+            var message = "in "+this.className+"."+this.methodName+", argument 'parameters' can't be evaluated";
+            throw new IllegalArgumentException(message, 'NullityChecker', 'check');
         }
         
         if(parameters.constructor !== Array)
         {
-            var message = "NullityChecker.check(for "+this.className+"."+this.methodName+"): argument 'parameters' must be an array of the form form [{name:'param1', value:value1}, {name:'param2', value:value2}]";
-            throw new GenericException(message, "IllegalArgument");
+            var message = "in "+this.className+"."+this.methodName+", argument 'parameters' must be an array of the form form [{name:'param1', value:value1}, {name:'param2', value:value2}]";
+            throw new IllegalArgumentException(message, 'NullityChecker', 'check');
         }
 
         var message = this.className+"."+this.methodName+": ";
@@ -80,7 +80,7 @@ var NullityChecker = new JS.Class({
         
         if(isFaulty)
         {
-            throw new GenericException(message, "IllegalArguments");
+            throw new IllegalArgumentException(message, 'NullityChecker', 'check');
         }
     },
     
@@ -92,14 +92,14 @@ var NullityChecker = new JS.Class({
 
         if(!parameters)
         {
-            var message = "NullityChecker.checkNamed(for "+this.className+"."+this.methodName+"): argument 'parameters' can't be evaluated";
-            throw new GenericException(message, "IllegalArgument");
+            var message = "called in "+this.className+"."+this.methodName+", argument 'parameters' can't be evaluated";
+            throw new IllegalArgumentException(message, 'NullityChecker','checkNamed');
         }
         
         if(parameters.constructor !== Array)
         {
-            var message = "NullityChecker.checkNamed(for "+this.className+"."+this.methodName+"): argument 'parameters' must be an array of the form form [{name:'param1', value:value1}, {name:'param2', value:value2}]";
-            throw new GenericException(message, "IllegalArgument");
+            var message = "called in "+this.className+"."+this.methodName+", argument 'parameters' must be an array of the form form [{name:'param1', value:value1}, {name:'param2', value:value2}]";
+            throw new IllegalArgumentException(message, 'NullityChecker','checkNamed');
         }
 
         var message = this.className+"."+this.methodName+": ";
@@ -120,7 +120,7 @@ var NullityChecker = new JS.Class({
         
         if(isFaulty)
         {
-            throw new GenericException(message, "IllegalArguments");
+            throw new IllegalArgumentException(message, 'NullityChecker', 'checkNamed');
         }
     }
 });

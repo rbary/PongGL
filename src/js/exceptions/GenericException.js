@@ -6,12 +6,18 @@
 
 
 var GenericException = new JS.Class({
-    initialize : function(message, exceptionName){
-        this.name = (exceptionName !== null) ? exceptionName : "GenericException";
-        this._message = (message !== null) ? message : "";
+    initialize : function(message, className, methodName, exceptionName)
+    {
+        this.name = (exceptionName && (exceptionName instanceof String)) ? exceptionName : "GenericException";
+        this.message = (message && (message instanceof String)) ? message : "no details given";
+        this.className = (className && (className instanceof String)) ? className : "'Unknown class'";
+        this.methodName = (methodName && (methodName instanceof String)) ? methodName : "'Unknown method'";
     },
 
-    message: function(){
-        return "Exception\n\t" + this.name + ": " + this._message;
+    getMessage: function()
+    {
+        return "Exception\n\t"+
+                this.name+" in "+this.className+"."+this.methodName+
+                ": " + this.message;
     }
 });
