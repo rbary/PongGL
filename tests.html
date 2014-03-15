@@ -33,7 +33,17 @@ and open the template in the editor.
             'use strict';
         </script>
         <script src="src/js/exceptions/GenericException.js"></script>
-        <script src="src/js/exceptions/NullityChecker.js"></script>
+        <script src="src/js/exceptions/IllegalArgumentException.js"></script>
+        <script src="src/js/exceptions/LogicErrorException.js"></script>
+        <script src="src/js/exceptions/NullPointerException.js"></script>
+        <script src="src/js/exceptions/RuntimeErrorException.js"></script>
+        <script src="src/js/exceptions/TypeErrorException.js"></script>
+        
+        <script src="src/js/defensive/AbstractChecker.js"></script>
+        <script src="src/js/defensive/NullityChecker.js"></script>
+        <script src="src/js/defensive/TypeChecker.js"></script>
+        <script src="src/js/defensive/__Base__.js"></script>
+        
         <script src="src/js/3Dobjects/IDynamic.js"></script>
         <script src="src/js/3Dobjects/Abstract3Dobject.js"></script>
         <script src="src/js/3Dobjects/AbstractDynamic3Dobject.js"></script>
@@ -48,29 +58,24 @@ and open the template in the editor.
         <script src="src/js/components/CollisionReactor.js"></script>
         <script src="src/js/components/KinematicEngine.js"></script>
         <script src="src/js/components/PongRenderer.js"></script>
+
         <script type="text/javascript">
             'use strict';
-            var arr = {a : 1};
-            var x;
-            var y = null;
             
-            function f(i,j){i = j; console.log("arguments[0]: "+arguments[0]);}
+            var str1 = "string2";
+            var str2 = 'string2';
+            var str3 = new String("string3");
+            var str4 = new String("string4");
             
-            console.log([1].constructor === Array);
-            console.log([].constructor === Object);
-            console.log("(new Ball(1, 0, 0, 0, 1, 1, 1)).constructor === AbstractDynamic3Dobject: "+((new Ball(1, 0, 0, 0, 1, 1, 1)).constructor === AbstractDynamic3Dobject));
-            console.log("(new Ball(1, 0, 0, 0, 1, 1, 1)).constructor === Ball: "+((new Ball(1, 0, 0, 0, 1, 1, 1)).constructor === Ball));
-            console.log("(new Ball(1, 0, 0, 0, 1, 1, 1)) instanceof AbstractDynamic3Dobject: "+((new Ball(1, 0, 0, 0, 1, 1, 1)) instanceof AbstractDynamic3Dobject));
-            //console.log("(new Ball(1, 0, 0, 0, 1, 1, 1)) instanceof 1 "+((new Ball(1, 0, 0, 0, 1, 1, 1)) instanceof 1));
-            
-            console.log([3].length);
-            [x,y] = [1, 2];
-            var c = new f(x, 345);
-            var d = new String();
-            console.log("y: "+y);
-            console.log(arr.c);
-            console.log(x);
-            console.log(x === undefined);
+            console.log("str1.constructor === String: "+(str1.constructor === String));
+            console.log("str2.constructor === String: "+(str2.constructor === String));
+            console.log("str3.constructor === String: "+(str3.constructor === String));
+            console.log("str4.constructor === String: "+(str4.constructor === String));
+
+            console.log("str1 instanceof String: "+(str1 instanceof String));
+            console.log("str2 instanceof String: "+(str2 instanceof String));
+            console.log("str3 instanceof String: "+(str3 instanceof String));
+            console.log("str4 instanceof String: "+(str4 instanceof String));
         </script>
     </head>
     <body>

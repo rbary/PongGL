@@ -15,31 +15,35 @@ var TypeChecker = new JS.Class(AbstractChecker, {
     {
         if(args === undefined)
         {
-            var message = "in "+this.className+"."+this.methodName+",  parameter 'args' is undefined";
+            var message = "called in "+this.className+"."+this.methodName+",  parameter 'args' is undefined";
             throw new IllegalArgumentException(message, 'TypeChecker', '_checkFormat');
         }
 
-        if(args.constructor !== Array)
+        if(args.constructor !== Array && (!args instanceof Array))
         {
-            var message = "TypeChecker._checkFormat(for "+this.className+"."+this.methodName+"parameter 'args' must be an array";
+            var message = "called in "+this.className+"."+this.methodName+", parameter 'args' must be an array";
             throw new IllegalArgumentException(message, 'TypeChecker', '_checkFormat');
         }
 
         if(types === undefined)
         {
-            var message = "TypeChecker._checkFormat(for "+this.className+"."+this.methodName+"parameter 'types' is undefined";
+            var message = "called in "+this.className+"."+this.methodName+", parameter 'types' is undefined";
             throw new IllegalArgumentException(message, 'TypeChecker', '_checkFormat');
         }
 
-        if(types.constructor !== Array)
+        if(types.constructor !== Array && (!types instanceof Array))
         {
-            var message = "TypeChecker._checkFormat(for "+this.className+"."+this.methodName+"parameter 'types' must be an array";
+            var message = "called in "+this.className+"."+this.methodName+", parameter 'types' must be an array";
             throw new IllegalArgumentException(message, 'TypeChecker', '_checkFormat');
         }
 
         if(args.length !== types.length)
         {
-            var message = "TypeChecker._checkFormat(for "+this.className+"."+this.methodName+"'args' and 'types' must be of the same number";
+            console.log("Logging from TypeChecker_checkFormat");
+            console.log("args: "+args);
+            console.dir(args);
+            console.log("types: "+types.toString());
+            var message = "called in "+this.className+"."+this.methodName+", 'args' and 'types' must be of the same size";
             throw new LogicErrorException(message, 'TypeChecker', '_checkFormat');
         }
     },
@@ -50,7 +54,7 @@ var TypeChecker = new JS.Class(AbstractChecker, {
      */
     check : function(args, types, methodName)
     {
-        if(methodName instanceof String && methodName !== '')
+        if((methodName.constructor === String || methodName instanceof String) && methodName !== '')
             this.methodName = methodName;
 
         this._checkFormat(args, types);
@@ -61,8 +65,13 @@ var TypeChecker = new JS.Class(AbstractChecker, {
         {
             var arg = args[i];
             var type = types[i];
+            var typeMatch = true;
             
-            if(!(arg instanceof type) && arg !== null)
+            typeMatch = (arg.constructor === type);
+            if(!this.strictMode)
+                typeMatch = typeMatch || (arg instanceof type);
+            
+            if(!typeMatch && arg !== null)
             {
                 message += "arguments "+i+" is not of the corresponding type\n\t";
                 faulty = true;

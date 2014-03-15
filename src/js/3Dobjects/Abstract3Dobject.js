@@ -24,43 +24,43 @@ var Abstract3Doject = new JS.Class(__Base__, {
     
     setName: function(name)
     {
-        this.checkArgs(arguments, [String], 'setName');
+        this.checkArgs([name], [String], 'setName');
         
         this._name = name;
     },
     setX: function(xPos)
     {
-        this.checkArgs(arguments, [Number], 'setX');
+        this.checkArgs([xPos], [Number], 'setX');
         
         this._mesh.position.x = xPos;
     },
     setY: function(yPos)
     {
-        this.checkArgs(arguments, [Number], 'setY');
+        this.checkArgs([yPos], [Number], 'setY');
         
         this._mesh.position.y = yPos;
     },
     setZ: function(zPos)
     {
-        this.checkArgs(arguments, [Number], 'setZ');
+        this.checkArgs([zPos], [Number], 'setZ');
         
         this._mesh.position.z = zPos;
     },
     setPosition: function(xPos, yPos, zPos)
     {
-        this.checkArgs(arguments, [Number, Number, Number], 'setPosition');
+        this.checkArgs([xPos, yPos, zPos], [Number, Number, Number], 'setPosition');
         
         this._mesh.position.set(xPos, yPos, zPos);
     },
     translate: function(translationVector)
     {
-        this.checkArgs(arguments, [THREE.Vector3], 'translate');
+        this.checkArgs([translationVector], [THREE.Vector3], 'translate');
 
         this._mesh.position.add(translationVector);
     },
     setRotation: function(xRot, yRot, zRot)
     {
-        this.checkArgs(arguments, [Number, Number, Number], 'setRotation');
+        this.checkArgs([xRot, yRot, zRot], [Number, Number, Number], 'setRotation');
 
         this._mesh.rotation.set(xRot, yRot, zRot);
     },

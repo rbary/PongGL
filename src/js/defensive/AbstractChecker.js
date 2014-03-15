@@ -8,28 +8,30 @@
 var AbstractChecker = new JS.Class({
     initialize : function(className, methodName)
     {
-        console.log("\nLogging from AbstractChecker.\n");
-        console.log("className: "+className);
-        console.log("className.constructor === String: "+(className.constructor === String));
-        console.log("className instanceof String: "+(className instanceof String));
-        console.log("className && (className instanceof String): "+(className && (className instanceof String)));
-        this.className = (className && (className instanceof String)) ? className : "'Unknow class'";
-        this.methodName = (methodName && (methodName instanceof String)) ? methodName : "'Unknow method'";
+        this.className = (className && (className.constructor === String || className instanceof String)) ? className : "'Unknow class'";
+        this.className = (className && (className.constructor === String || className instanceof String)) ? className : "'Unknow class'";
+        this.methodName = (methodName && (className.constructor === String || methodName instanceof String)) ? methodName : "'Unknow method'";
+        this.strict = true;
     },
     
     setClassName : function(className)
     {
-        this.className = (className && (className instanceof String)) ? className : "'Unknow class'";
+        this.className = (className && (className.constructor === String || className instanceof String)) ? className : "'Unknow class'";
     },
     
     setMethodName : function(methodName)
     {
-        this.methodName = (methodName && (methodName instanceof String)) ? methodName : "'Unknow class'";
+        this.methodName = (methodName && (className.constructor === String || methodName instanceof String)) ? methodName : "'Unknow class'";
     },
     
     setCallerNames : function(className, methodName)
     {
-        this.className = (className && (className instanceof String)) ? className : "'Unknow class'";
-        this.methodName = (methodName && (methodName instanceof String)) ? methodName : "'Unknow class'";
+        this.className = (className && (className.constructor === String || className instanceof String)) ? className : "'Unknow class'";
+        this.methodName = (methodName && (className.constructor === String || methodName instanceof String)) ? methodName : "'Unknow class'";
+    },
+    
+    setStrictMode : function(yesNo)
+    {
+        this.strict = new Boolean(yesNo);
     }
 });

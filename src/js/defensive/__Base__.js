@@ -11,7 +11,7 @@ var __Base__ = new JS.Class({
         this.nullityChecker = new NullityChecker(name);
         this.typeChecker = new TypeChecker(name);
         
-        this.typeChecker.check(arguments, [String], '__Base__.initialise');
+        this.typeChecker.check([name], [String], '__Base__.initialise');
         
         this.name = name ? name : '__Base__';
     },
@@ -28,13 +28,13 @@ var __Base__ = new JS.Class({
 
     checkArgs : function(args, types, methodName)
     {
-        this.typeChecker = new TypeChecker(args, types, methodName);
-        this.nullityChecker = new NullityChecker(args, methodName);
+        this.typeChecker.check(args, types, methodName);
+        this.typeChecker.check(args, types, methodName);
     },
     
     setName: function(name)
     {
-        this.typeChecker.check(arguments, [String], '__Base__.setName');
+        this.typeChecker.check([name], [String], '__Base__.setName');
 
         this.name = name ? name : '__Base__';
     },
