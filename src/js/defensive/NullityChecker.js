@@ -73,7 +73,7 @@ var NullityChecker = new JS.Class(AbstractChecker, {
             if(param === null || param === undefined)
             {
                 faultyState = (param === undefined) ? "undefined" : "null";
-                message += "argument at position "+i+" in the given arguments list is "+faultyState;
+                message += "argument at position "+(i+1)+" in the given arguments list is "+faultyState;
                 isFaulty = true;
             }
         }

@@ -6,8 +6,10 @@
 
 
 
-var NormalBox = new JS.Class(Abstract3Doject, {
-    initialize: function(){
+var NormalBox = new JS.Class(Abstract3Doject,
+{
+    initialize: function()
+    {
         var geometry = new THREE.CubeGeometry(2, 2, 2, 0,0,0);
         var material = new THREE.MeshBasicMaterial({ color: 0xffcccc, wireframe: true });
         
@@ -15,7 +17,8 @@ var NormalBox = new JS.Class(Abstract3Doject, {
         this._mesh.visible = false;
     },
     
-    setVisible: function(boolValue){
+    setVisible: function(boolValue)
+    {
         if(typeof(boolValue) === 'boolean')
         {
             this._mesh.visible = boolValue;

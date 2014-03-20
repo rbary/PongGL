@@ -20,6 +20,8 @@ var AbstractDynamic3Dobject = new JS.Class(Abstract3Doject, {
     initialize: function(name, xPos, yPos, zPos, geometry, material, mass, acceleration, initialSpeed)
     {
         this.callSuper(name, xPos, yPos, zPos, geometry, material);
+        this.checkArgs([mass, acceleration, initialSpeed], [Number, THREE.Vector3, THREE.Vector3], 'initialize');
+        
         this._mass = mass;
         this._acc = (new THREE.Vector3()).copy(acceleration);
         this._speed = (new THREE.Vector3()).copy(initialSpeed);
@@ -41,22 +43,32 @@ var AbstractDynamic3Dobject = new JS.Class(Abstract3Doject, {
     
     setMass : function(newMass)
     {
+        this.checkArgs([newMass], [Number], 'setMass');
+        
         this._mass = newMass;
     },
     setSpeed : function(speed)
     {
+        this.checkArgs([speed], [Number], 'setSpeed');
+        
         this._speed = (new THREE.Vector3()).copy(speed);
     },
     setAcceleration : function(acc)
     {
+        this.checkArgs([acc], [THREE.Vector3()], 'setAcceleration');
+        
         this._acc = (new THREE.Vector3()).copy(acc);
     },
     setColliders: function(collidersList)
     {
+        this.checkArgs([collidersList], [Array], 'setColliders');
+
         this._obstacles = collidersList;
     },
     addCollider : function(collider)
     {
+        this.checkArgs([collider], [Abstract3DObject], 'addCollider');
+        
         this._obstacles.push(collider);
     },
     

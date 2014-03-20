@@ -73,7 +73,7 @@ var TypeChecker = new JS.Class(AbstractChecker, {
             
             if(!typeMatch && arg !== null)
             {
-                message += "arguments "+i+" is not of the corresponding type\n\t";
+                message += "arguments "+(i+1)+" is not of the corresponding type\n\t";
                 faulty = true;
             }
         }

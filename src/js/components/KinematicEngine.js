@@ -5,15 +5,17 @@
  */
 
 
-var KinematicEngine = new JS.Class({
+var KinematicEngine = new JS.Class(__Base__,{
     initialize: function()
     {
+        this.callSuper('KinematicEngine');
         this._lastTime = 0;
         this._pongScene = null;
     },
     
     bindScene: function(pongScene)
     {
+        this.checkArgs([pongScene],[PongScene],'bindScene');
         this._pongScene = pongScene;
     },
 
@@ -49,5 +51,7 @@ var KinematicEngine = new JS.Class({
     },
     
     moveBat: function(bat, xdelta)
-    {}
+    {
+        this.checkArgs([bat, xdelta],[Bat, Number],'moveBat');
+    }
 });

@@ -5,7 +5,7 @@
  */
 
 
-var PongScene = new JS.Class({
+var PongScene = new JS.Class(__Base__,{
     wallWidth: 0.7,
     wallHeight: 0.3,
     wallThickness: 0.02,
@@ -33,8 +33,9 @@ var PongScene = new JS.Class({
         this.walls[2] = new Wall('ground', 0,0,0, this.groundWidth, this.wallThickness, this.groundHeight);
         this.walls[2].setY(-0.05);
         
-        this.bats[0] = new Bat('playersBat', this.groundWidth/2,-0.03,0, this.batThickness, this.batHeight, this.batWidth, 0,0,0);
-        this.bats[1] = new Bat('cpuBat', -this.groundWidth/2,-0.03,0, this.batThickness, this.batHeight, this.batWidth, 0,0,0);
+        var v0 = new THREE.Vector3(0,0,0);
+        this.bats[0] = new Bat('playersBat', this.groundWidth/2,-0.03,0, this.batThickness, this.batHeight, this.batWidth, 0,v0,v0);
+        this.bats[1] = new Bat('cpuBat', -this.groundWidth/2,-0.03,0, this.batThickness, this.batHeight, this.batWidth, 0,v0,v0);
         
         this.scene = new THREE.Scene();
         

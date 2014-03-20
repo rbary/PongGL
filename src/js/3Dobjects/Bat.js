@@ -7,7 +7,9 @@
 
 
 var Bat = new JS.Class(AbstractDynamic3Dobject, {
-    initialize: function(name, xPos, yPos, zPos, width, height, depth, mass, acceleration, initialSpeed){
+    initialize: function(name, xPos, yPos, zPos, width, height, depth, mass, acceleration, initialSpeed)
+    {
+        (new TypeChecker('Bat','initialize')).check([width, height, depth],[Number, Number, Number],''); //inner typechecker not set yet (callSuper() is later)
         var geometry = new THREE.CubeGeometry(width, height, depth);
         var material = new THREE.MeshPhongMaterial({ color: 0xcccccc, wireframe: false });
         

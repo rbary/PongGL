@@ -5,6 +5,6 @@
  */
 
 
-var CollisionReactor = new JS.Class({
+var CollisionReactor = new JS.Class(__Base__,{
     initialize: function(){}
 });

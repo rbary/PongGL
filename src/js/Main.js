@@ -33,10 +33,16 @@ window.onload = function()
         animate();
     }
     
-    catch(exception)
+    catch(ex if ex instanceof GenericException)
     {
-        console.log("\nLogging from Main.js\n");
-        console.log(exception.getMessage());
+        console.log("\nLogging from Main.js, catching instanceof GenericException\n");
+        console.log(ex.getMessage());
+    }
+    
+    catch(ex)
+    {
+        console.log("\nLogging from Main.js, catching other errors\n");
+        console.log(ex.message);
     }
 };
 

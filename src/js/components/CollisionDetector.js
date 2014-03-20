@@ -5,6 +5,6 @@
  */
 
 
-var CollisionDetector = new JS.Class({
+var CollisionDetector = new JS.Class(__Base__,{
     initialize: function(){}
 });

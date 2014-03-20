@@ -6,6 +6,6 @@
 
 
 
-var GameStateMAnager = new JS.Class({
+var GameStateMAnager = new JS.Class(__Base__,{
     initialize: function(){}
 });
