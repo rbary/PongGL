@@ -83,7 +83,7 @@ var PongRenderer = new JS.Class(__Base__,{
         if(this.cameraControls !== null)
             this.cameraControls.update();
         
-        this.kEngine.moveBall();
+        this.kEngine.moveAll(this.pongScene.dynamicObjects, -1);
     },
     
     width: function()

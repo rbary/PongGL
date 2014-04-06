@@ -71,7 +71,7 @@ var Abstract3Doject = new JS.Class(__Base__, {
 
     name: function()
     {
-        return this._name;
+        return this._name.clone();
     },
     xPos: function()
     {
@@ -87,11 +87,11 @@ var Abstract3Doject = new JS.Class(__Base__, {
     },
     position: function()
     {
-        return this._mesh.position;
+        return this._mesh.position.clone();
     },
     rotation: function()
     {
-        return this._mesh.rotation;
+        return this._mesh.rotation.clone();
     },
     getThreeMesh: function()
     {

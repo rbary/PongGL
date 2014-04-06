@@ -23,6 +23,7 @@ var PongScene = new JS.Class(__Base__,{
     {
         this.walls = new Array();
         this.bats = new Array();
+        this.dynamicObjects = new Array();
 
         this.ball = new Ball(this.ballRadius, 0, 0, 0, this.ballMass, this.initialAcceleration, this.initialSpeed);
         this.ball.setY(-0.03);
@@ -37,6 +38,8 @@ var PongScene = new JS.Class(__Base__,{
         this.bats[0] = new Bat('playersBat', this.groundWidth/2,-0.03,0, this.batThickness, this.batHeight, this.batWidth, 0,v0,v0);
         this.bats[1] = new Bat('cpuBat', -this.groundWidth/2,-0.03,0, this.batThickness, this.batHeight, this.batWidth, 0,v0,v0);
         
+        this.dynamicObjects.push(this.ball);
+
         this.scene = new THREE.Scene();
         
         this.scene.add(this.ball.getThreeMesh());

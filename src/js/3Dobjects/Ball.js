@@ -13,5 +13,12 @@ var Ball = new JS.Class(AbstractDynamic3Dobject, {
         var material = new THREE.MeshPhongMaterial({ color: 0xff4A00, wireframe: false });
 
         this.callSuper("Ball", xPos, yPos, zPos, geometry, material, mass, acceleration, initialSpeed);
+        
+        this.radius = radius;
+    },
+    
+    radius: function()
+    {
+        return this.radius;
     }
 });
