@@ -1,10 +1,3 @@
-//
-//requirejs.config({
-//    paths: {
-//        NullityChecker: '../utils/TimeGetter',
-//        TypeChecker: '../utils/TimeGetter'
-//    }
-//});
 
 define(
     ['NullityChecker',

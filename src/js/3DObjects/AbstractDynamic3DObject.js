@@ -1,9 +1,3 @@
-//
-//requirejs.config({
-//    paths: {
-//        EnumRayCastingMode: '../utils/EnumRayCastingMode'
-//    }
-//});
 
 define(
     ['Abstract3DObject',

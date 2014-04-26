@@ -1,10 +1,3 @@
-//
-//requirejs.config({
-//    paths: {
-//        __Base__: '../defensive/__Base__'
-//    }
-//});
-
 
 define(
     ['__Base__'],

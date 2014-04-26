@@ -1,12 +1,3 @@
-//
-//requirejs.config({
-//    paths: {
-//        Ball: '../3DObjects/Ball',
-//        Wall: '../3DObjects/Wall',
-//        Bat: '../3DObjects/Bat',
-//        __Base__: '../defensive/__Base__'
-//    }
-//});
 
 define(
     ['Ball',

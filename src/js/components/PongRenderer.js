@@ -1,16 +1,11 @@
-//
-//requirejs.config({
-//    paths: {
-//        __Base__: '../defensive/__Base__'
-//    }
-//});
 
 define(
     ['PongScene',
     'KinematicEngine',
-    '__Base__'],
+    '__Base__',
+    'NormalBox'],
    
-    function(PongScene, KinematicEngine, __Base__)
+    function(PongScene, KinematicEngine, __Base__, NormalBox)
     {
         var PongRenderer = new JS.Class(__Base__,
         {

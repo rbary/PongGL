@@ -1,10 +1,3 @@
-//
-//requirejs.config({
-//    paths: {
-//        TimeGetter: '../utils/TimeGetter',
-//        AbstractDynamic3DObject: '../3DObjects/AbstractDynamic3DObject'
-//    }
-//});
 
 define(
     ['PongScene',

@@ -1,9 +1,3 @@
-//
-//requirejs.config({
-//    paths: {
-//        IllegalArgumentException: '../exceptions/IllegalArgumentException'
-//    }
-//});
 
 define(
     ['AbstractChecker',

@@ -1,8 +1,9 @@
 
 define(
-    ['AbstractDynamic3DObject'],
+    ['AbstractDynamic3DObject',
+    'TypeChecker'],
     
-    function(AbstractDynamic3DObject)
+    function(AbstractDynamic3DObject, TypeChecker)
     {
         var Ball = new JS.Class(AbstractDynamic3DObject,
         {

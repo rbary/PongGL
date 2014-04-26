@@ -53,7 +53,9 @@ requirejs.config({
 });
 
 require(
-   ['PongGame',
+   ['PongScene',
+   'PongRenderer',
+   'KinematicEngine',
    'GenericException',
    'Three',
    'OrbitControls',
@@ -64,70 +66,44 @@ require(
    'JSCore',
    'DatGui'],
    
-   function(PongGame, GenericException)
-   {
-       
-       try
-       {
-           var game = new PongGame();
-           game.start();
-       }
+    function(PongScene, PongRenderer, KinematicEngine, GenericException)
+    {
+        var renderer;
 
-       catch(ex if ex instanceof GenericException)
-       {
-           console.log("\nLogging from Main.js, catching instanceof GenericException\n");
-           console.log(ex.getMessage());
-       }
-   });
+        function animate()
+        {
+            requestAnimationFrame(animate);
+            renderer.render();
+            renderer.update();
+        }
 
-//require(
-//   ['components/PongScene',
-//    'components/PongRenderer',
-//    'components/KinematicEngine'],
-//
-//function(PongScene, PongRenderer, KinematicEngine)
-//{
-//    var renderer;
-//
-//    function animate()
-//    {
-//        requestAnimationFrame(animate);
-//        renderer.render();
-//        renderer.update();
-//    }
-//
-//    function start()
-//    {
-//        try
-//        {
-//            var pongScene = new PongScene();
-//            var kEngine = new KinematicEngine();
-//            kEngine.bindScene(pongScene);
-//
-//            renderer = new PongRenderer("view", window.innerWidth, window.innerHeight);
-//            renderer.bindComponents(pongScene, kEngine);
-//
-//            renderer.setCameraControls();
-//            renderer.makeNormalBox();
-//            renderer.makeAxis();
-//
-//            renderer.setCameraPosition(pongScene.wallWidth/2+0.4, 0.4, 0);
-//
-//            animate();
-//        }
-//
-//        catch(ex if ex instanceof GenericException)
-//        {
-//            console.log("\nLogging from Main.js, catching instanceof GenericException\n");
-//            console.log(ex.getMessage());
-//        }
-//
-//    //    catch(ex)
-//    //    {
-//    //        console.log("\nLogging from Main.js, catching other errors\n");
-//    //        console.log(ex.message);
-//    //    }
-//    };
-//    
-//    start();
-//});
+        function start()
+        {
+            try
+            {
+                var pongScene = new PongScene();
+                var kEngine = new KinematicEngine();
+                kEngine.bindScene(pongScene);
+
+                renderer = new PongRenderer("view", window.innerWidth, window.innerHeight);
+                renderer.bindComponents(pongScene, kEngine);
+
+                renderer.setCameraControls();
+                renderer.makeNormalBox();
+                renderer.makeAxis();
+
+                renderer.setCameraPosition(pongScene.wallWidth / 2 + 0.4, 0.4, 0);
+
+                animate();
+            }
+
+            catch (ex if ex instanceof GenericException)
+            {
+                console.log("\nLogging from Main.js, catching instanceof GenericException\n");
+                console.log(ex.getMessage());
+            }
+        }
+        ;
+
+        start();
+    });

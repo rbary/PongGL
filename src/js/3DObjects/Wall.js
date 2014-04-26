@@ -1,8 +1,9 @@
 
 define(
-    ['Abstract3DObject'],
+    ['Abstract3DObject',
+    'TypeChecker'],
     
-    function(Abstract3DObject)
+    function(Abstract3DObject, TypeChecker)
     {
         var Wall = new JS.Class(Abstract3DObject,
         {

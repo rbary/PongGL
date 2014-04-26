@@ -1,10 +1,3 @@
-//
-//requirejs.config({
-//    paths: {
-//        __Base__: '../defensive/__Base__',
-//        AbstractDynamic3DObject: '../3DObjects/AbstractDynamic3DObject'
-//    }
-//});
 
 define(
     ['__Base__',
