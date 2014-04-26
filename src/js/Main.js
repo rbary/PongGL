@@ -60,6 +60,7 @@ require(
    'KinematicEngine',
    'GenericException',
    'KinematicEngineMonitor',
+   
    'Three',
    'OrbitControls',
    'FullScreen',
