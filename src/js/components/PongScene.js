@@ -5,7 +5,8 @@
  */
 
 
-var PongScene = new JS.Class(__Base__,{
+var PongScene = new JS.Class(__Base__,
+{
     wallWidth: 0.7,
     wallHeight: 0.3,
     wallThickness: 0.02,
