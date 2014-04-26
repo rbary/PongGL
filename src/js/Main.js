@@ -9,51 +9,52 @@ requirejs.config({
         JSLoader: '../lib/JS.Class/min/loader',
         JSCore: '../lib/JS.Class/min/core',
         DatGui: '../lib/dat.gui/dat.gui',
-        PongGame: 'components/PongGame'
+        PongGame: 'components/PongGame',
         
-//        ,
-//        Abstract3DObject: '3DObjects/Abstract3DObject',
-//        AbstractDynamic3DObjact: '3DObjects/AbstractDynamic3DObjact',
-//        Ball: '3DObjects/Ball',
-//        Bat: '3DObjects/Bat',
-//        NormalBox: '3DObjects/NormalBox',
-//        Wall: '3DObjects/Wall',
-//        
-//        CollisionDetector: 'components/CollisionDetector',
-//        CollisionReactor: 'components/CollisionReactor',
-//        CollisionTestResultHolder: 'components/CollisionTestResultHolder',
-//        GameStateManager: 'components/GameStateManager',
-//        KinematicEngine: 'components/KinematicEngine',
-//        PongRenderer: 'components/PongRenderer',
-//        PongScene: 'components/PongScene',
-//        
-//        AbstractCkecker: 'defensive/AbstractCkecker',
-//        NullityCkecker: 'defensive/NullityCkecker',
-//        TypeCkecker: 'defensive/TypeCkecker',
-//        __Base__: 'defensive/__Base__',
-//        
-//        GenericException: 'exceptions/GenericException',
-//        IllegalArgumentException: 'exceptions/IllegalArgumentException',
-//        LogicErrorException: 'exceptions/LogicErrorException',
-//        NullPointerException: 'exceptions/NullPointerException',
-//        RuntimeErrorException: 'exceptions/RuntimeErrorException',
-//        TypeErrorException: 'exceptions/TypeErrorException',
-//        
-//        EnumCollisionType: 'utils/EnumCollisionType',
-//        EnumRayCastingMode: 'utils/EnumRayCastingMode',
-//        TimeGetter: 'utils/TimeGetter'
+        Abstract3DObject: '3DObjects/Abstract3DObject',
+        AbstractDynamic3DObject: '3DObjects/AbstractDynamic3DObject',
+        Ball: '3DObjects/Ball',
+        Bat: '3DObjects/Bat',
+        NormalBox: '3DObjects/NormalBox',
+        Wall: '3DObjects/Wall',
+        
+        CollisionDetector: 'components/CollisionDetector',
+        CollisionReactor: 'components/CollisionReactor',
+        CollisionTestResultHolder: 'components/CollisionTestResultHolder',
+        GameStateManager: 'components/GameStateManager',
+        KinematicEngine: 'components/KinematicEngine',
+        PongRenderer: 'components/PongRenderer',
+        PongScene: 'components/PongScene',
+        
+        AbstractChecker: 'defensive/AbstractChecker',
+        NullityChecker: 'defensive/NullityChecker',
+        TypeChecker: 'defensive/TypeChecker',
+        __Base__: 'defensive/__Base__',
+        
+        GenericException: 'exceptions/GenericException',
+        IllegalArgumentException: 'exceptions/IllegalArgumentException',
+        LogicErrorException: 'exceptions/LogicErrorException',
+        NullPointerException: 'exceptions/NullPointerException',
+        RuntimeErrorException: 'exceptions/RuntimeErrorException',
+        TypeErrorException: 'exceptions/TypeErrorException',
+        
+        EnumCollisionType: 'utils/EnumCollisionType',
+        EnumRayCastingMode: 'utils/EnumRayCastingMode',
+        TimeGetter: 'utils/TimeGetter'
     },
     shim: {
       'OrbitControls': ['Three'],
       'FullScreen' : ['Three'],
       'WindowResize' : ['Three'],
       'KeyboardState' : ['Three'],
-      'JSCore': ['JSLoader']
+      'JSCore': ['JSLoader'],
+      'GenericException': ['JSCore']
     }
 });
 
 require(
    ['PongGame',
+   'GenericException',
    'Three',
    'OrbitControls',
    'FullScreen',
@@ -63,7 +64,7 @@ require(
    'JSCore',
    'DatGui'],
    
-   function(PongGame)
+   function(PongGame, GenericException)
    {
        
        try
@@ -77,14 +78,8 @@ require(
            console.log("\nLogging from Main.js, catching instanceof GenericException\n");
            console.log(ex.getMessage());
        }
-
-        catch(ex)
-        {
-            console.log("\nLogging from Main.js, catching other errors\n");
-            console.log(ex.message);
-        }
    });
-//
+
 //require(
 //   ['components/PongScene',
 //    'components/PongRenderer',

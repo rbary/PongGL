@@ -1,17 +1,18 @@
-
-requirejs.config({
-    paths: {
-        TimeGetter: '../utils/TimeGetter',
-        AbstractDynamic3DObject: '../3DObjects/AbstractDynamic3DObject'
-    }
-});
+//
+//requirejs.config({
+//    paths: {
+//        TimeGetter: '../utils/TimeGetter',
+//        AbstractDynamic3DObject: '../3DObjects/AbstractDynamic3DObject'
+//    }
+//});
 
 define(
     ['PongScene',
     'TimeGetter',
-    'AbstractDynamic3DObject'],
+    'AbstractDynamic3DObject',
+    '__Base__'],
 
-    function(PongScene, TimeGetter, AbstractDynamic3DObject)
+    function(PongScene, TimeGetter, AbstractDynamic3DObject, __Base__)
     {
         var KinematicEngine = new JS.Class(__Base__,
         {

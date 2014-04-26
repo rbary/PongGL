@@ -1,12 +1,12 @@
-
-requirejs.config({
-    paths: {
-        AbstractChecker: '../exceptions/AbstractChecker',
-        IllegalArgumentException: '../exceptions/IllegalArgumentException',
-        LogicErrorException: '../exceptions/LogicErrorException',
-        TypeErrorException: '../exceptions/TypeErrorException'
-    }
-});
+//
+//requirejs.config({
+//    paths: {
+//        AbstractChecker: '../exceptions/AbstractChecker',
+//        IllegalArgumentException: '../exceptions/IllegalArgumentException',
+//        LogicErrorException: '../exceptions/LogicErrorException',
+//        TypeErrorException: '../exceptions/TypeErrorException'
+//    }
+//});
 
 define(
     ['AbstractChecker',

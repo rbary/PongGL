@@ -1,11 +1,11 @@
-
-requirejs.config({
-    paths: {
-        __Base__: '../defensive/__Base__',
-        EnumCollisionType: '../utils/EnumCollisionType',
-        Abstract3DObject: '../3DObjects/Abstract3DObject'
-    }
-});
+//
+//requirejs.config({
+//    paths: {
+//        __Base__: '../defensive/__Base__',
+//        EnumCollisionType: '../utils/EnumCollisionType',
+//        Abstract3DObject: '../3DObjects/Abstract3DObject'
+//    }
+//});
 
 define(
     ['__Base__',

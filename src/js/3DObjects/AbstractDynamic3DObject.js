@@ -1,15 +1,17 @@
-
-requirejs.config({
-    paths: {
-        EnumRayCastingMode: '../utils/EnumRayCastingMode'
-    }
-});
+//
+//requirejs.config({
+//    paths: {
+//        EnumRayCastingMode: '../utils/EnumRayCastingMode'
+//    }
+//});
 
 define(
     ['Abstract3DObject',
-    'EnumRayCastingMode'],
+    'EnumRayCastingMode',
+    'EnumCollisionType',
+    'CollisionTestResultHolder'],
     
-    function(Abstract3DObject, EnumRayCastingMode)
+    function(Abstract3DObject, EnumRayCastingMode, EnumCollisionType, CollisionTestResultHolder)
     {
         /**
          * 
@@ -105,7 +107,7 @@ define(
                 ];
 
                 this._rayLaunchPoints = [this.position()];
-                this._rayCastingMode = EnumRayCastingMode.omnidiectional;
+                this._rayCastingMode = EnumRayCastingMode.omnidirectional;
             },
 
             setUniDirectionalRays: function(dirVector)
@@ -146,7 +148,7 @@ define(
 
                 for(var i = 0; i < this._rayDirections.length; ++i)
                 {
-                    if(this._rayCastingMode === EnumRayCastingMode.omnidiectional)
+                    if(this._rayCastingMode === EnumRayCastingMode.omnidirectional)
                         this._rayCaster.set(this._mesh.position, this._rayDirections[i]);
                     else
                         this._rayCaster.set(this._rayLaunchPoints[i], this._rayDirections[0]);
