@@ -26,6 +26,8 @@ requirejs.config({
         PongRenderer: 'components/PongRenderer',
         PongScene: 'components/PongScene',
         
+        KinematicEngineMonitor: 'debug/KinematicEngineMonitor',
+        
         AbstractChecker: 'defensive/AbstractChecker',
         NullityChecker: 'defensive/NullityChecker',
         TypeChecker: 'defensive/TypeChecker',
@@ -57,16 +59,16 @@ require(
    'PongRenderer',
    'KinematicEngine',
    'GenericException',
+   'KinematicEngineMonitor',
    'Three',
    'OrbitControls',
    'FullScreen',
    'WindowResize',
    'KeyboardState',
    'JSLoader',
-   'JSCore',
-   'DatGui'],
+   'JSCore'],
    
-    function(PongScene, PongRenderer, KinematicEngine, GenericException)
+    function(PongScene, PongRenderer, KinematicEngine, GenericException, KinematicEngineMonitor)
     {
         var renderer;
 
@@ -93,6 +95,9 @@ require(
                 renderer.makeAxis();
 
                 renderer.setCameraPosition(pongScene.wallWidth / 2 + 0.4, 0.4, 0);
+                
+                var monitor = new KinematicEngineMonitor();
+                monitor.bindKinEngine(kEngine);
 
                 animate();
             }
