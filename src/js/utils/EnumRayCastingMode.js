@@ -4,6 +4,11 @@
  * and open the template in the editor.
  */
 
-
-
-var EnumRayCastingMode = {omnidiectional:'OMNI_DIR', unidirectional:'UNI_DIR', none:'NONE'};
+define(
+    [],
+    function()
+    {
+        var EnumRayCastingMode = {omnidiectional:'OMNI_DIR', unidirectional:'UNI_DIR', none:'NONE'};
+        
+        return EnumRayCastingMode;
+    });

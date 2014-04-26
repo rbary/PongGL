@@ -4,10 +4,19 @@
  * and open the template in the editor.
  */
 
-
-var IllegalArgumentException = new JS.Class(GenericException, {
-    initialize : function(message, className, methodName)
+define(
+    ['GenericException'],
+    function(GenericException)
     {
-        this.callSuper(message, className, methodName, 'IllegalArgumentException');
-    }
-});
+        var IllegalArgumentException = new JS.Class(GenericException,
+        {
+            initialize : function(message, className, methodName)
+            {
+                this.callSuper(message, className, methodName, 'IllegalArgumentException');
+            }
+        });
+        
+        return IllegalArgumentException;
+    });
+
+

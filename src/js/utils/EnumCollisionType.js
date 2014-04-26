@@ -4,5 +4,11 @@
  * and open the template in the editor.
  */
 
-
-var EnumCollisionType = {EXACT:'EXACT', INTERSECT:'INTERSECT', EXEEDED:'EXEEDED', NONE:'NONE'};
+define(
+    [],
+    function()
+    {
+        var EnumCollisionType = {EXACT:'EXACT', INTERSECT:'INTERSECT', EXEEDED:'EXEEDED', NONE:'NONE'};
+        
+        return EnumCollisionType;
+    });

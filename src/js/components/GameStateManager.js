@@ -1,11 +1,22 @@
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
-
-
-var GameStateMAnager = new JS.Class(__Base__,{
-    initialize: function(){}
+requirejs.config({
+    paths: {
+        __Base__: '../defensive/__Base__'
+    }
 });
+
+
+define(
+    ['__Base__'],
+    
+    function(__Base__)
+    {
+        var GameStateManager = new JS.Class(__Base__,
+        {
+            initialize: function(){}
+        });
+        
+        return GameStateManager;
+    });
+
+

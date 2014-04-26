@@ -4,11 +4,20 @@
  * and open the template in the editor.
  */
 
-
-
-var NullPointerException = new JS.Class(GenericException, {
-    initialize : function(message, className, methodName)
+define(
+    ['GenericException'],
+    function(GenericException)
     {
-        this.callSuper(message, className, methodName, 'NullPointerException');
-    }
-});
+        var NullPointerException = new JS.Class(GenericException,
+        {
+            initialize : function(message, className, methodName)
+            {
+                this.callSuper(message, className, methodName, 'NullPointerException');
+            }
+        });
+        
+        return NullPointerException;
+    });
+
+
+

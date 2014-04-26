@@ -4,10 +4,19 @@
  * and open the template in the editor.
  */
 
-
-var RuntimeErrorException = new JS.Class(GenericException, {
-    initialize : function(message, className, methodName)
+define(
+    ['GenericException'],
+    function(GenericException)
     {
-        this.callSuper(message, className, methodName, 'RuntimeErrorException');
-    }
-});
+        var RuntimeErrorException = new JS.Class(GenericException,
+        {
+            initialize : function(message, className, methodName)
+            {
+                this.callSuper(message, className, methodName, 'RuntimeErrorException');
+            }
+        });
+
+        return RuntimeErrorException;
+    });
+
+
