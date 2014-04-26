@@ -6,7 +6,7 @@
 
 
 
-var Bat = new JS.Class(AbstractDynamic3Dobject, {
+var Bat = new JS.Class(AbstractDynamic3DObject, {
     initialize: function(name, xPos, yPos, zPos, width, height, depth, mass, acceleration, initialSpeed)
     {
         (new TypeChecker('Bat','initialize')).check([width, height, depth],[Number, Number, Number],''); //inner typechecker not set yet (callSuper() is later)

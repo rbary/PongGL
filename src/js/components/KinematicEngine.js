@@ -11,10 +11,10 @@ var KinematicEngine = new JS.Class(__Base__,
     {
         this.callSuper('KinematicEngine');
         
-        this._lastTime = 0;
-        this._currentTime = 0;
+        this._startTime = 0;
+        this._endTime = 0;
         this._pongScene = null;
-        this.objects = [];
+        this.timeGetter = new TimeGetter();
     },
     
     bindScene: function(pongScene)
@@ -23,26 +23,56 @@ var KinematicEngine = new JS.Class(__Base__,
         this._pongScene = pongScene;
     },
     
-    setInitialTime: function(time)
+    setStartTime: function(time)
     {
-        this.checkArgs([time], [Number], 'setInitialTime');
+        this.checkArgs([time], [Number], 'setStartTime');
         
-        this._lastTime = (time >= 0) ? time : 0;
+        this._startTime = (time >= 0) ? time : 0;
     },
     
-    setCurrentTime: function(time)
+    setEndTime: function(time)
     {
-        this.checkArgs([time], [Number], 'setCurrentTime');
+        this.checkArgs([time], [Number], 'setEndTime');
         
-        this._currentTime = (time >= 0) ? time : 0;
+        this._endTime = (time >= 0) ? time : 0;
     },
     
-    setInterval: function(startTime, endTime)
+    startTime: function()
+    {
+        return this._startTime;
+    },
+    
+    endTime: function()
+    {
+        return this._endTime;
+    },
+    
+    setTimeInterval: function(startTime, endTime)
     {
         this.checkArgs([startTime, endTime], [Number, Number], 'setInterval');
         
-        this._lastTime = Math.abs(startTime);
-        this._currentTime = Math.abs(endTime);
+        this._startTime = Math.abs(startTime);
+        this._endTime = Math.abs(endTime);
+    },
+    
+    shiftTimeInterval: function(toTime)
+    {
+        this.checkTypes([toTime],[Number],'shiftTimeInterval');
+        
+        this._startTime = this._endTime;
+        if(toTime !== null)
+        {
+            this._endTime = toTime;
+            
+            //At the very begenning (defines initial time t0)
+            if(this._startTime === 0)
+                this._startTime = this._endTime;
+        }
+        
+        for(var i=0; i < this._pongScene.movingObjects.length; ++i)
+        {
+            this._pongScene.movingObjects[i].setTimeCursor(this._endTime);
+        }
     },
     
     /*** ball motion
@@ -53,15 +83,15 @@ var KinematicEngine = new JS.Class(__Base__,
     * v: vecteur vitesse
     * x2 - x1 = 1/2*a*(t2^2 - t1^2) + v0*(t2 - t1)
     ***/
-    getKinematicsDeltaAt: function(dynamic3Dobject, currentTime)
+    getKinematicsDelta: function(dynamic3Dobject)
     {
-        this.checkArgs([dynamic3Dobject, currentTime], [Abstract3Dobject, Number], 'getKinematicsDeltaAt');
+        this.checkArgs([dynamic3Dobject], [AbstractDynamic3DObject], 'getKinematicsDelta');
         
-        var lastTime = (this._lastTime === 0) ? currentTime : this._lastTime;
+        var currentTime = dynamic3Dobject.timeCursor();
+        var lastTime = (this._startTime === 0) ? currentTime : this._startTime;
 
         var timeDelta = currentTime - lastTime;
         var squaredTimeDelta = (currentTime*currentTime - lastTime*lastTime);
-        squaredTimeDelta /= 1000000000000; //getTime() is milliseconds, and the formula is seconds
         
         var a = (new THREE.Vector3).copy(dynamic3Dobject.acceleration());
         var v = (new THREE.Vector3).copy(dynamic3Dobject.speed());
@@ -73,60 +103,108 @@ var KinematicEngine = new JS.Class(__Base__,
         return {speeDelta:speeDelta, positionDelta:positionDelta};
     },
 
-    move: function(dynamic3Dobject, currentTime)
+    move: function(dynamic3Dobject)
     {
-        var kinematicsDelta = this.getKinematicsDeltaAt(dynamic3Dobject, currentTime);
+        var kinematicsDelta = this.getKinematicsDelta(dynamic3Dobject);
         
         dynamic3Dobject.translate(kinematicsDelta.positionDelta);
-        dynamic3Dobject.speed().add(kinematicsDelta.speeDelta);
-    },
-    
-    moveAll: function(dynamic3Dobjects, toTime)
-    {
-        this.checkArgs([dynamic3Dobjects, toTime], [Array, Number], 'moveAll');
-        
-        var currentTime = (toTime <= 0) ? (new Date()).getTime() : toTime;
-        
-        if(this._lastTime === 0)
-            this._lastTime = currentTime;
-        
-        for(var i=0; i < dynamic3Dobjects.length; ++i)
-        {
-            this.move(dynamic3Dobjects[i], currentTime);
-        }
-        
-        this._lastTime = currentTime;
+        dynamic3Dobject.setSpeed(dynamic3Dobject.speed().add(kinematicsDelta.speeDelta));
     },
 
-    moveBall: function()
+    moveBack: function(dynamic3Dobject)
     {
-        var currentTime = (new Date()).getTime();
-        this.move(this._pongScene.ball, currentTime);
-    },
-    
-    moveBat: function(bat, xdelta)
-    {
-        this.checkArgs([bat, xdelta],[Bat, Number],'moveBat');
-    },
-    
-    step: function()
-    {
-        this._lastTime = this._currentTime;
-        this._currentTime = (new Date()).getTime();
-    },
-    
-    stepTo: function(time)
-    {
+        var kinematicsDelta = this.getKinematicsDelta(dynamic3Dobject);
         
+        dynamic3Dobject.translate(kinematicsDelta.positionDelta.multiplyScalar(-1));
+        dynamic3Dobject.setSpeed(dynamic3Dobject.speed().add(kinematicsDelta.speeDelta.multiplyScalar(-1)));
     },
     
-    stepBack: function()
+    //Computes the new position of the given object within the time interval,
+    //without shifting the time interval
+    step: function(dynamic3Dobject)
     {
+        dynamic3Dobject.setTimeCursor(this._endTime);
         
+        this.move(dynamic3Dobject);
     },
     
-    timeOfPosition: function(object, position)
+    //Computes the new position all objects within the time interval,
+    //without shifting the time interval
+    stepAll: function()
     {
+        for(var i=0; i < this._pongScene.movingObjects.length; ++i)
+        {
+            this.step(this._pongScene.movingObjects[i]);
+        }
+    },
+    
+    //computes the position of the given objects at the given time, without shifting the time interval. 
+    stepObjectsTo: function(dynamic3DobjectsList, toTime)
+    {
+        for(var i=0; i < dynamic3DobjectsList.length; ++i)
+        {
+            var dynamic3Dobject = dynamic3DobjectsList[i];
+            dynamic3Dobject.setTimeCursor(toTime);
+
+            this.move(dynamic3Dobject);
+        }
+    },
+    
+    //computes the positions of all objects at the given time, without shifting the time interval. 
+    //Use shiftTimeInterval to shift the time interval
+    stepAllTo: function(toTime)
+    {
+        for(var i=0; i < this._pongScene.movingObjects.length; ++i)
+        {
+            this._pongScene.movingObjects[i].setTimeCursor(toTime);
+            this.move(this._pongScene.movingObjects[i]);
+        }
+    },
+    
+    //Moves back the object to previous state, without shifting the time interval.
+    //Use shiftTimeInterval to shift the time interval
+    stepObjectsBack: function(dynamic3DobjectsList)
+    {
+        for(var i=0; i < dynamic3DobjectsList.length; ++i)
+        {
+            var dynamic3Dobject = dynamic3DobjectsList[i];
+            
+            this.moveBack(dynamic3Dobject);
+            dynamic3Dobject.setTimeCursor(this._startTime);
+        }
+    },
+    
+    //Moves back the object to previous state, without shifting the time interval.
+    //Use shiftTimeInterval to shift the time interval
+    stepBackAll: function()
+    {
+        for(var i=0; i < this._pongScene.movingObjects.length; ++i)
+        {
+            this.moveBack(this._pongScene.movingObjects[i]);
+            this._pongScene.movingObjects[i].setTimeCursor(this._startTime);
+        }
+    },
+    
+    timeOfPosition: function(dynamic3Dobject, position, initialPosition)
+    {
+        var a = dynamic3Dobject.acceleration();
+        var xP1 = initialPosition.x;
+        var xP2 = position.x;
+
+        var squaredTime = 2*(xP2 - xP1)/a.x + this._startTime*this._startTime;
         
+        return Math.sqrt(squaredTime);
+    },
+    
+    //Shifts the time interval, and computes the new position of all objects
+    newFrame: function()
+    {
+        this.shiftTimeInterval( this.timeGetter.getSec() );
+        
+        //console.log(this._pongScene.movingObjects.length);
+        for(var i=0; i < this._pongScene.movingObjects.length; ++i)
+        {
+            this.move(this._pongScene.movingObjects[i]);
+        }
     }
 });

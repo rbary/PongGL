@@ -6,7 +6,7 @@
 
 
 
-var NormalBox = new JS.Class(Abstract3Doject,
+var NormalBox = new JS.Class(Abstract3DObject,
 {
     initialize: function()
     {

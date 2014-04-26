@@ -10,7 +10,7 @@
  * 
  * Abstract because new THREE.Mesh does not define the geometry and the material
  */
-var Abstract3Doject = new JS.Class(__Base__, {
+var Abstract3DObject = new JS.Class(__Base__, {
     initialize: function(name, xPos, yPos, zPos, geometry, material)
     {
         this.callSuper(name);

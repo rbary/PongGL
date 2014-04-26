@@ -5,7 +5,7 @@
  */
 
 
-var Ball = new JS.Class(AbstractDynamic3Dobject, {
+var Ball = new JS.Class(AbstractDynamic3DObject, {
     initialize: function(radius, xPos, yPos, zPos, mass, acceleration, initialSpeed)
     {
         (new TypeChecker('Ball','initialize')).check([radius],[Number],''); //inner typechecker not set yet (callSuper() is later)

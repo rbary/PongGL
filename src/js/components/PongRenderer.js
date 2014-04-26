@@ -15,6 +15,7 @@ var PongRenderer = new JS.Class(__Base__,{
         this.height = height;
         this.lastTime = 0;
         this.cameraControls = null;
+        this.pongScene = null;
         
         this.camera = new THREE.PerspectiveCamera(45, width / height, 0.01, 10);
         
@@ -83,7 +84,7 @@ var PongRenderer = new JS.Class(__Base__,{
         if(this.cameraControls !== null)
             this.cameraControls.update();
         
-        this.kEngine.moveAll(this.pongScene.dynamicObjects, -1);
+        this.kEngine.newFrame();
     },
     
     width: function()

@@ -15,7 +15,7 @@
  * the instant position and instant speed.
  * One need to be careful not to modify the initial speed by mistake.
  */
-var AbstractDynamic3Dobject = new JS.Class(Abstract3Doject,
+var AbstractDynamic3DObject = new JS.Class(Abstract3DObject,
 {
     initialize: function(name, xPos, yPos, zPos, geometry, material, mass, acceleration, initialSpeed)
     {
@@ -25,8 +25,9 @@ var AbstractDynamic3Dobject = new JS.Class(Abstract3Doject,
         this._mass = mass;
         this._acc = (new THREE.Vector3()).copy(acceleration);
         this._speed = (new THREE.Vector3()).copy(initialSpeed);
-        this._obstacles = [];
+        this._timeCursor = 0; /*!< Allows to move back and forth in the current simulation time interval */
 
+        this._obstacles = {motionless:[], moving:[]};
         this._collisionTolerance = 0.0001;
 
         this._rayCaster = new THREE.Raycaster();
@@ -43,7 +44,7 @@ var AbstractDynamic3Dobject = new JS.Class(Abstract3Doject,
     },
     setSpeed : function(speed)
     {
-        this.checkArgs([speed], [Number], 'setSpeed');
+        this.checkArgs([speed], [THREE.Vector3], 'setSpeed');
         
         this._speed = (new THREE.Vector3()).copy(speed);
     },
@@ -65,11 +66,23 @@ var AbstractDynamic3Dobject = new JS.Class(Abstract3Doject,
 
         this._collisionTolerance = Math.abs(tolerance);
     },
-    addCollider : function(collider)
+    setTimeCursor: function(time)
     {
-        this.checkArgs([collider], [Abstract3DObject], 'addCollider');
+        this.checkArgs([time], [Number], 'setAcceleration');
         
-        this._obstacles.push(collider);
+        this._timeCursor = Math.abs(time);
+    },
+    addMovingObstacle: function(movingObstacle)
+    {
+        this.checkArgs([movingObstacle], [Abstract3DObject], 'addMovingObstacle');
+        
+        this._obstacles.moving.push(movingObstacle);
+    },
+    addMotionLessObstacle: function(motionLessObstacle)
+    {
+        this.checkArgs([motionLessObstacle], [Abstract3DObject], 'addMotionLessObstacle');
+        
+        this._obstacles.motionless.push(motionLessObstacle);
     },
     
     setOmniDirectionalRays: function()
@@ -155,17 +168,22 @@ var AbstractDynamic3Dobject = new JS.Class(Abstract3Doject,
         
         var isColliding = false;
         var collisionType = EnumCollisionType.NONE;
+        
+        // Problem: add boolean '
         if(rayCastingRes.object !== null && rayCastingRes.object !== {})
         {
             if(rayCastingRes.distance <= this._collisionTolerance)
             {
                 // Direction constraint:
-                // tangent objects are not acutally colliding if they're going
+                // close objects are not acutally colliding if they're going
                 // far from each other, instead of getting closer
+                //
+                // Problem: this doesn't work in all cases. If objects are going in the same average
+                // direction, a collision will stil be detected after the trajectories intersection point.
                 var C1 = this.position();
                 var C2 = rayCastingRes.object.position();
                 var V1 = this.speed();
-                var V2 = (rayCastingRes.object instanceof AbstractDynamic3Dobject) ?
+                var V2 = (rayCastingRes.object instanceof AbstractDynamic3DObject) ?
                             rayCastingRes.object.speed() :
                                     new THREE.Vector3(0,0,0);
                 var C1C2 = C2.clone().add(C1.clone().multiplyScalar(-1));
@@ -179,12 +197,15 @@ var AbstractDynamic3Dobject = new JS.Class(Abstract3Doject,
             }
         }
         
-        return (new CollisionTestResultHolder()).setResult(isColliding, rayCastingRes.object,
+        // Problem: check validity of this construct
+        return (new CollisionTestResultHolder()).setResult(isColliding, this, rayCastingRes.object,
                                                          rayCastingRes.point, collisionType, null);
     },
     
     detectContact: function()
     {
+        // Problem: add bounding box test !!!
+        
         this.setOmniDirectionalRays();
         return this.getRaysIntersection(this._obstacles);
     },
@@ -201,8 +222,20 @@ var AbstractDynamic3Dobject = new JS.Class(Abstract3Doject,
     {
         return this._acc.clone();
     },
-    colliders : function()
+    obstacles : function()
     {
         return this._obstacles.clone();
+    },
+    movingObstacles : function()
+    {
+        return this._obstacles.moving.clone();
+    },
+    motionLessObstacles : function()
+    {
+        return this._obstacles.motionless.clone();
+    },
+    timeCursor: function()
+    {
+        return this._timeCursor;
     }
 });

@@ -19,7 +19,7 @@ var TypeChecker = new JS.Class(AbstractChecker, {
             throw new IllegalArgumentException(message, 'TypeChecker', '_checkFormat');
         }
 
-        if(args.constructor !== Array && (!args instanceof Array))
+        if(args.constructor !== Array && !(args instanceof Array))
         {
             var message = "called in "+this.className+"."+this.methodName+", parameter 'args' must be an array";
             throw new IllegalArgumentException(message, 'TypeChecker', '_checkFormat');
@@ -31,7 +31,7 @@ var TypeChecker = new JS.Class(AbstractChecker, {
             throw new IllegalArgumentException(message, 'TypeChecker', '_checkFormat');
         }
 
-        if(types.constructor !== Array && (!types instanceof Array))
+        if(types.constructor !== Array && !(types instanceof Array))
         {
             var message = "called in "+this.className+"."+this.methodName+", parameter 'types' must be an array";
             throw new IllegalArgumentException(message, 'TypeChecker', '_checkFormat');
@@ -53,7 +53,7 @@ var TypeChecker = new JS.Class(AbstractChecker, {
      * @param {list of types} types list of constructors or JS.Class classes
      */
     check : function(args, types, methodName)
-    {
+    {        
         if((methodName.constructor === String || methodName instanceof String) && methodName !== '')
             this.methodName = methodName;
 
@@ -73,6 +73,7 @@ var TypeChecker = new JS.Class(AbstractChecker, {
             
             if(!typeMatch && arg !== null)
             {
+                console.log(arg);
                 message += "arguments "+(i+1)+" is not of the corresponding type\n\t";
                 faulty = true;
             }

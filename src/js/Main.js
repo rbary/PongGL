@@ -39,11 +39,11 @@ window.onload = function()
         console.log(ex.getMessage());
     }
     
-    catch(ex)
-    {
-        console.log("\nLogging from Main.js, catching other errors\n");
-        console.log(ex.message);
-    }
+//    catch(ex)
+//    {
+//        console.log("\nLogging from Main.js, catching other errors\n");
+//        console.log(ex.message);
+//    }
 };
 
 function type(obj){

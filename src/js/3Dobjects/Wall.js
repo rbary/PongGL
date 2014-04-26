@@ -5,7 +5,7 @@
  */
 
 
-var Wall = new JS.Class(Abstract3Doject, {
+var Wall = new JS.Class(Abstract3DObject, {
     initialize: function(name, xPos, yPos, zPos, width, height, depth)
     {
         (new TypeChecker('Wall','initialize')).check([width, height, depth],[Number, Number, Number],''); //inner typechecker not set yet (callSuper() is later)
