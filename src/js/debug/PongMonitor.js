@@ -7,9 +7,10 @@
 define(
     ['__Base__',
     'KinematicEngine',
+    'PongGame',
     'DatGui'],
     
-    function(__Base__, KinematicEngine)
+    function(__Base__, KinematicEngine, PongGame)
     {
         var PongMonitor = new JS.Class(__Base__,
         {
@@ -18,6 +19,7 @@ define(
                 this.callSuper('PongMonitor');
                 
                 this.kinEngine = null;
+                this.pongGame = null;
                 this.gui = new dat.GUI();
             },
             
@@ -27,6 +29,18 @@ define(
                 
                 this.kinEngine = kinEngine;
                 this.gui.add(this.kinEngine, '_startTime');
+            },
+            
+            bindPongGame: function(pongGame)
+            {
+                // Don't know why the following doesn't work
+                //this.checkArgs([pongGame], [PongGame], 'bindPongGame');
+                
+                this.pongGame = pongGame;
+                this.gui.add(this.pongGame, 'step');
+                this.gui.add(this.pongGame, 'loop');
+                this.gui.add(this.pongGame, 'stopLoop');
+                this.gui.add(this.pongGame, 'reset');
             }
         });
         

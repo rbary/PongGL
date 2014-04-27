@@ -12,7 +12,7 @@ define(
             initialize: function()
             {
                 this.callSuper('KinematicEngine');
-
+                
                 this._startTime = 0;
                 this._endTime = 0;
                 this._pongScene = null;
@@ -73,6 +73,18 @@ define(
 
                 for(var i=0; i < this._pongScene.movingObjects.length; ++i)
                 {
+                    this._pongScene.movingObjects[i].setTimeCursor(this._endTime);
+                }
+            },
+            
+            reset: function()
+            {
+                this._startTime = 0;
+                this._endTime = 0;
+
+                for(var i=0; i < this._pongScene.movingObjects.length; ++i)
+                {
+                    this._pongScene.movingObjects[i].reset();
                     this._pongScene.movingObjects[i].setTimeCursor(this._endTime);
                 }
             },

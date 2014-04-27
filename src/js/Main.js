@@ -69,10 +69,12 @@ require(
     function(PongGame)
     {
         var game;
+        var animateSwitch = {on:false};
         
         function animate()
         {
             game.step();
+            
             requestAnimationFrame(animate);
         }
         
@@ -80,5 +82,6 @@ require(
         game.init();
         game.setAnimateFunction(animate);
         
-        game.loop();
+        game.step();
+        //game.loop();
     });

@@ -1,13 +1,10 @@
 
 define(
     ['PongScene',
-    'KinematicEngine',
-    'CollisionDetector',
-    'CollisionReactor',
     '__Base__',
     'NormalBox'],
    
-    function(PongScene, KinematicEngine, CollisionDetector, CollisionReactor, __Base__, NormalBox)
+    function(PongScene, __Base__, NormalBox)
     {
         var PongRenderer = new JS.Class(__Base__,
         {
@@ -22,9 +19,6 @@ define(
                 this.cameraControls = null;
                 
                 this.pongScene = null;
-                this.kEngine = null;
-                this.collisionDetector = null;
-                this.collisionReactor = null;
 
                 this.camera = new THREE.PerspectiveCamera(45, width / height, 0.01, 10);
 
@@ -49,35 +43,6 @@ define(
                 this.threeScene = pongScene.getThreeScene();
                 this.threeScene.add(this.camera);
                 this.threeScene.add(this.light);
-            },
-
-            bindKinematicEngine: function(kinematicEngine)
-            {
-                this.checkArgs([kinematicEngine],[KinematicEngine],'bindKinematicEngine');
-
-                this.kEngine = kinematicEngine;
-            },
-            
-            bindCollisionDetector: function(collisionDetector)
-            {
-                this.checkArgs([collisionDetector],[CollisionDetector],'bindCollisionDetector');
-                
-                this.collisionDetector = collisionDetector;
-            },
-            
-            bindCollisionReactor: function(collisionReactor)
-            {
-                this.checkArgs([collisionReactor],[CollisionReactor],'bindCollisionReactor');
-                
-                this.collisionReactor = collisionReactor;
-            },
-
-            bindComponents: function(pongScene, kinematicEngine, collisionDetector, collisionReactor)
-            {
-                this.bindScene(pongScene);
-                this.bindKinematicEngine(kinematicEngine);
-                this.bindCollisionDetector(collisionDetector);
-                this.bindCollisionReactor(collisionReactor);
             },
 
             makeNormalBox: function()
@@ -108,10 +73,8 @@ define(
                 //camera control with mouse (for tests)
                 if(this.cameraControls !== null)
                     this.cameraControls.update();
-
-                this.kEngine.newFrame();
-                var collisionTestResultsList = this.collisionDetector.detect();
-                this.collisionReactor.computeReactions(collisionTestResultsList);
+                
+                this.render();
             },
 
             width: function()

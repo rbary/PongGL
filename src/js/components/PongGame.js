@@ -19,7 +19,11 @@ define(
                 this.callSuper('PongGame');
                 
                 this.renderer = null;
+                this.kEngine = null;
+                this.collisionDetector = null;
+                this.collisionReactor = null;
                 this.animate = null;
+                this.animateOn = false;
             },
             
             init: function()
@@ -27,17 +31,17 @@ define(
                 try
                 {
                     var pongScene = new PongScene();
-                    var kEngine = new KinematicEngine();
-                    kEngine.bindScene(pongScene);
+                    this.kEngine = new KinematicEngine();
+                    this.kEngine.bindScene(pongScene);
 
-                    var collisionDetector = new CollisionDetector();
-                    collisionDetector.bindComponents(pongScene, kEngine);
+                    this.collisionDetector = new CollisionDetector();
+                    this.collisionDetector.bindComponents(pongScene, this.kEngine);
 
-                    var collisionReactor = new CollisionReactor();
-                    collisionReactor.bindKinEngine(kEngine);
+                    this.collisionReactor = new CollisionReactor();
+                    this.collisionReactor.bindKinEngine(this.kEngine);
 
                     this.renderer = new PongRenderer("view", window.innerWidth, window.innerHeight);
-                    this.renderer.bindComponents(pongScene, kEngine, collisionDetector, collisionReactor);
+                    this.renderer.bindScene(pongScene);
 
                     this.renderer.setCameraControls();
                     this.renderer.makeNormalBox();
@@ -46,7 +50,8 @@ define(
                     this.renderer.setCameraPosition(pongScene.wallWidth / 2 + 0.4, 0.4, 0);
 
                     var monitor = new PongMonitor();
-                    monitor.bindKinEngine(kEngine);
+                    monitor.bindKinEngine(this.kEngine);
+                    monitor.bindPongGame(this);
                 }
 
                 catch (ex if ex instanceof GenericException)
@@ -65,13 +70,33 @@ define(
             
             step: function()
             {
-                this.renderer.render();
                 this.renderer.update();
+                
+                if(this.animateOn)
+                    this.kEngine.newFrame();
+                //var collisionTestResultsList = this.collisionDetector.detect();
+                //this.collisionReactor.computeReactions(collisionTestResultsList);
             },
             
             loop: function()
             {
-                this.animate();
+                this.animateOn = true;
+                
+                if(this.animate !== null)
+                    this.animate();
+                else
+                    console.log("PongGame.loop: no animation fonction defined");
+            },
+            
+            stopLoop: function()
+            {
+                this.animateOn = false;
+            },
+            
+            reset: function()
+            {
+                this.kEngine.reset();
+                this.renderer.update();
             }
         });
         

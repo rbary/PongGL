@@ -16,11 +16,15 @@ define(
             {
                 this.callSuper(name);
                 this.checkArgs([xPos, yPos, zPos, geometry, material], [Number, Number, Number, THREE.Geometry, THREE.Material], 'initialize');
-
+                
                 this._mesh = new THREE.Mesh(geometry, material);
                 this._mesh.position.set(xPos, yPos, zPos);
 
                 this._mesh.geometry.computeBoundingBox();
+                
+                // Paramters of object reset
+                this._initialPosition = new THREE.Vector3(xPos, yPos, zPos);
+                this._initialRotation = this._mesh.rotation.clone();
             },
 
             setName: function(name)
@@ -47,6 +51,12 @@ define(
 
                 this._mesh.position.z = zPos;
             },
+            setInitialPosition: function(xPos, yPos, zPos)
+            {
+                this.checkArgs([xPos, yPos, zPos], [Number, Number, Number], 'setInitialPosition');
+
+                this._initialPosition = new THREE.Vector3(xPos, yPos, zPos);
+            },
             setPosition: function(xPos, yPos, zPos)
             {
                 this.checkArgs([xPos, yPos, zPos], [Number, Number, Number], 'setPosition');
@@ -59,11 +69,22 @@ define(
 
                 this._mesh.position.add(translationVector);
             },
+            setInitialRotation: function(xRot, yRot, zRot)
+            {
+                this.checkArgs([xRot, yRot, zRot], [Number, Number, Number], 'setInitialPosition');
+
+                this._initialRotation = new THREE.Vector3(xRot, yRot, zRot);
+            },
             setRotation: function(xRot, yRot, zRot)
             {
                 this.checkArgs([xRot, yRot, zRot], [Number, Number, Number], 'setRotation');
 
                 this._mesh.rotation.set(xRot, yRot, zRot);
+            },
+            reset: function()
+            {
+                this.setPosition(this._initialPosition.x, this._initialPosition.y, this._initialPosition.z);
+                this.setRotation(this._initialRotation.x, this._initialRotation.y, this._initialRotation.z);
             },
             computeBondingBox : function()
             {
@@ -85,6 +106,14 @@ define(
             zPos: function()
             {
                 return this._mesh.position.z;
+            },
+            initialPosition: function()
+            {
+                return this._initialPosition.clone();
+            },
+            initialRotation: function()
+            {
+                return this._initialRotation.clone();
             },
             position: function()
             {

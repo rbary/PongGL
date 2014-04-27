@@ -37,6 +37,9 @@ define(
                 this._rayDirections = [];
                 this._rayLaunchPoints = [];
                 this._rayCastingMode = EnumRayCastingMode.none;
+
+                this._initialAcc = this._acc;
+                this._initialSpeed = this._speed;
             },
 
             setMass : function(newMass)
@@ -45,17 +48,35 @@ define(
 
                 this._mass = newMass;
             },
+            setInitialSpeed : function(speed)
+            {
+                this.checkArgs([speed], [THREE.Vector3], 'setSpeed');
+
+                this._initialSpeed = (new THREE.Vector3()).copy(speed);
+            },
             setSpeed : function(speed)
             {
                 this.checkArgs([speed], [THREE.Vector3], 'setSpeed');
 
                 this._speed = (new THREE.Vector3()).copy(speed);
             },
+            setInitialAcceleration : function(acc)
+            {
+                this.checkArgs([acc], [THREE.Vector3], 'setAcceleration');
+
+                this._initialAcc = (new THREE.Vector3()).copy(acc);
+            },
             setAcceleration : function(acc)
             {
                 this.checkArgs([acc], [THREE.Vector3], 'setAcceleration');
 
                 this._acc = (new THREE.Vector3()).copy(acc);
+            },
+            reset: function()
+            {
+                this.callSuper();
+                this.setSpeed(this._initialSpeed);
+                this.setAcceleration(this._initialAcc);
             },
             setColliders: function(collidersList)
             {
@@ -205,6 +226,14 @@ define(
             mass : function()
             {
                 return this._mass;
+            },
+            initialSpeed : function()
+            {
+                return this._initialSpeed.clone();
+            },
+            initialAcceleration : function()
+            {
+                return this._initialAcc.clone();
             },
             speed : function()
             {
