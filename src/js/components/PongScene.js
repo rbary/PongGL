@@ -19,7 +19,7 @@ define(
             groundHeight: 0.5,
             ballRadius: 0.01,
             ballMass: 500, //en grammes
-            initialSpeed: new THREE.Vector3(0.0001,0,0),
+            initialSpeed: new THREE.Vector3(0.1,0,0),
             initialAcceleration: new THREE.Vector3(0,0,0),
 
             initialize: function()

@@ -42,9 +42,10 @@ requirejs.config({
         
         EnumCollisionType: 'utils/EnumCollisionType',
         EnumRayCastingMode: 'utils/EnumRayCastingMode',
+        Geometry: 'utils/Geometry',
         TimeGetter: 'utils/TimeGetter'
     },
-    shim: {
+    shim: { // dependencies with and between external librairies (which are not requirejs modules)
       'OrbitControls': ['Three'],
       'FullScreen' : ['Three'],
       'WindowResize' : ['Three'],

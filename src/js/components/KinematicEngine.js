@@ -189,9 +189,15 @@ define(
 
             timeOfPosition: function(dynamic3Dobject, position, initialPosition)
             {
+                // Make sure to use a point on the trajectory:
+                // project the given point on the trajectory
+                var u = dynamic3Dobject.speed().normalize();
+                var P = u.multiplyScalar( position.sub(initialPosition).dot(u) );
+                
+                //compute time of position P
                 var a = dynamic3Dobject.acceleration();
                 var xP1 = initialPosition.x;
-                var xP2 = position.x;
+                var xP2 = P.x;
 
                 var squaredTime = 2*(xP2 - xP1)/a.x + this._startTime*this._startTime;
 

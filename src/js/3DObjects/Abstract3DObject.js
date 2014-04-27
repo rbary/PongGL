@@ -98,6 +98,15 @@ define(
             {
                 return this._mesh;
             },
+            getVertex: function(index)
+            {
+                this.checkArgs([index],[Number],'getVertex');
+                
+                if(index < this._mesh.geometry.vertices.length)
+                    return this._mesh.geometry.vertices[index];
+                else
+                    return null;
+            },
             getBoundingBox : function()
             {
                 var myBb = this._mesh.geometry.boundingBox.clone();

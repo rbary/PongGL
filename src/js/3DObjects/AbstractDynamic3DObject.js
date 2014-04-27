@@ -3,9 +3,10 @@ define(
     ['Abstract3DObject',
     'EnumRayCastingMode',
     'EnumCollisionType',
-    'CollisionTestResultHolder'],
+    'CollisionTestResultHolder',
+    'Geometry'],
     
-    function(Abstract3DObject, EnumRayCastingMode, EnumCollisionType, CollisionTestResultHolder)
+    function(Abstract3DObject, EnumRayCastingMode, EnumCollisionType, CollisionTestResultHolder, Geometry)
     {
         /**
          * 
@@ -171,7 +172,6 @@ define(
                 var isColliding = false;
                 var collisionType = EnumCollisionType.NONE;
 
-                // Problem: add boolean '
                 if(rayCastingRes.object !== null && rayCastingRes.object !== {})
                 {
                     if(rayCastingRes.distance <= this._collisionTolerance)
@@ -179,35 +179,25 @@ define(
                         // Direction constraint:
                         // close objects are not acutally colliding if they're going
                         // far from each other, instead of getting closer
-                        //
-                        // Problem: this doesn't work in all cases. If objects are going in the same average
-                        // direction, a collision will stil be detected after the trajectories intersection point.
-                        var C1 = this.position();
-                        var C2 = rayCastingRes.object.position();
-                        var V1 = this.speed();
-                        var V2 = (rayCastingRes.object instanceof AbstractDynamic3DObject) ?
-                                    rayCastingRes.object.speed() :
-                                            new THREE.Vector3(0,0,0);
-                        var C1C2 = C2.clone().add(C1.clone().multiplyScalar(-1));
-                        var C2C1 = C1.clone().add(C2.clone().multiplyScalar(-1));
-
-                        if(C1C2.dot(V1) > 0 || C2C1.dot(V2) > 0)
+                        if(Geometry.areConverging(this, rayCastingRes.object))
                         {
                             isColliding = true;
                             collisionType = EnumCollisionType.EXACT;
                         }
                     }
                 }
-
-                // Problem: check validity of this construct
+                
+                var faceNormal = Geometry.computeNormal(rayCastingRes.object.getVertex(rayCastingRes.face.a),
+                                                        rayCastingRes.object.getVertex(rayCastingRes.face.b),
+                                                        rayCastingRes.object.getVertex(rayCastingRes.face.c));
+                
                 return (new CollisionTestResultHolder()).setResult(isColliding, this, rayCastingRes.object,
-                                                                 rayCastingRes.point, collisionType, null);
+                                                                 rayCastingRes.point, faceNormal,
+                                                                 collisionType, null);
             },
 
             detectContact: function()
             {
-                // Problem: add bounding box test !!!
-
                 this.setOmniDirectionalRays();
                 return this.getRaysIntersection(this._obstacles);
             },

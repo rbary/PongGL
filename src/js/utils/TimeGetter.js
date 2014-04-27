@@ -10,7 +10,7 @@ define(
             {
                 this.callSuper('TimeGetter');
 
-                this.scaleFactor = 1;
+                this.scaleFactor = 0.001;
             },
 
             setScaleFactor: function(scaleFactor)
