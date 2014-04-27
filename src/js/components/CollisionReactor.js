@@ -80,7 +80,7 @@ define(
 
                 // Go to step end time
                 this._kinEngine.stepObjectsBack([movingObject, collider]);
-                this._kinEngine.stepObjectsTo([movingObject, collider], this._kinEngine.endTime());
+                this._kinEngine.stepObjectsTo([movingObject, collider], this._kinEngine.timeStep());
             },
 
             _reactMotionLess: function(collisionTestResult)
@@ -108,7 +108,7 @@ define(
 
                 // Go step endtime
                 this._kinEngine.stepObjectsBack([movingObject]);
-                this._kinEngine.stepObjectsTo([movingObject], this._kinEngine.endTime());
+                this._kinEngine.stepObjectsTo([movingObject], this._kinEngine.timeStep());
             }
         });
         

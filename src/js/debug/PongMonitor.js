@@ -28,7 +28,7 @@ define(
                 this.checkArgs([kinEngine], [KinematicEngine], 'bindKinEngine');
                 
                 this.kinEngine = kinEngine;
-                this.gui.add(this.kinEngine, '_startTime');
+                this.gui.add(this.kinEngine, '_timeStep');
             },
             
             bindPongGame: function(pongGame)

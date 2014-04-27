@@ -43,7 +43,7 @@ requirejs.config({
         EnumCollisionType: 'utils/EnumCollisionType',
         EnumRayCastingMode: 'utils/EnumRayCastingMode',
         Geometry: 'utils/Geometry',
-        TimeGetter: 'utils/TimeGetter'
+        DefaultParameters: 'utils/DefaultParameters'
     },
     shim: { // dependencies with and between external librairies (which are not requirejs modules)
       'OrbitControls': ['Three'],
@@ -69,11 +69,13 @@ require(
     function(PongGame)
     {
         var game;
-        var animateSwitch = {on:false};
         
         function animate()
         {
-            game.step();
+            game.updateGL();
+            
+            if(game.animateOn)
+                game.step();
             
             requestAnimationFrame(animate);
         }
@@ -83,5 +85,6 @@ require(
         game.setAnimateFunction(animate);
         
         game.step();
+        animate();
         //game.loop();
     });

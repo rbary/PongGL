@@ -68,12 +68,14 @@ define(
                 this.animate = animateFunction;
             },
             
-            step: function()
+            updateGL: function()
             {
                 this.renderer.update();
-                
-                if(this.animateOn)
-                    this.kEngine.newFrame();
+            },
+            
+            step: function()
+            {
+                this.kEngine.newFrame();
                 //var collisionTestResultsList = this.collisionDetector.detect();
                 //this.collisionReactor.computeReactions(collisionTestResultsList);
             },

@@ -5,9 +5,10 @@ define(
     'PongScene',
     'AbstractDynamic3DObject',
     'CollisionTestResultHolder',
-    'Geometry'],
+    'Geometry',
+    'DefaultParameters'],
     
-    function(__Base__, KinematicEngine, PongScene, AbstractDynamic3DObject, CollisionTestResultHolder, Geometry)
+    function(__Base__, KinematicEngine, PongScene, AbstractDynamic3DObject, CollisionTestResultHolder, Geometry, DefaultParameters)
     {
         var CollisionDetector = new JS.Class(__Base__,
         {
@@ -16,8 +17,8 @@ define(
                 this.callSuper('CollisionDetector');
 
                 this._pongScene = null;
-                this._collisionTolerance = 0.0001;
-                this.timeSubInterval = 0.01; /*!< Time interval for sampling when detecting collision with moving object */
+                this._collisionTolerance = DefaultParameters.collisionTolerance;
+                this.timeSubInterval = DefaultParameters.timeSubInterval; /*!< Time interval for sampling when detecting collision with moving object */
             },
 
             bindKinEngine: function(kinEngine)
@@ -110,7 +111,7 @@ define(
 
                 //We go at to the step end time
                 this._kinEngine.stepObjectsTo(motionLessObstacles, this._kinEngine.endTime());
-                this._kinEngine.stepObjectsTo([movingObject], this._kinEngine.endTime());
+                this._kinEngine.step(movingObject);
                 
                 if(collisionTestResult.collider !== null)
                 {
@@ -120,7 +121,7 @@ define(
                     if(testAfter.collider !== null)
                     {
                         collisionTestResult = testAfter;
-                        collisionTestResult.collisionTime = this._kinEngine.endTime();
+                        collisionTestResult.collisionTime = this._kinEngine.timeStep();
                     }
                     
                     // Case 2 & 3: the moving object intersects or has passed throw the obstacle
@@ -168,22 +169,23 @@ define(
                         // Iterate sub intervals
                         var collisionTest = new CollisionTestResultHolder();
 
-                        // Prepare time interval backup values
-                        var startTimeBak= this._kinEngine.startTime();
-                        var endTimeBak= this._kinEngine.startTime();
+                        // Prepare timestep backup value
+                        var timeStepBak= this._kinEngine.timeStep();
                         //Init sub-interval
-                        this._kinEngine.setEndTime(startTimeBak + this.timeSubInterval);
+                        this._kinEngine.setTimeStep(this.timeSubInterval);
+                        var pastTime = 0; // time accumulator
                         var j=0;
                         while(j < nbSubIntervals && !collisionTest.isColliding)
                         {
                             // Move obstacle at subEndTime
-                            this._kinEngine.stepObjectsTo([obstacle], this._kinEngine.endTime());
+                            this._kinEngine.step(obstacle);
                             
                             // Make tests similar to detection with motion less objects
                             collisionTest = movingObject.getRaysIntersection([obstacle]);
                             
+                            // Move movingObject at subEndTime
                             var initialPosition = movingObject.position();
-                            this._kinEngine.stepObjectsTo([movingObject], this._kinEngine.endTime());
+                            this._kinEngine.step(movingObject);
                             
                             if(collisionTest.collider !== null)
                             {
@@ -195,21 +197,21 @@ define(
                                     // the method movingObject.getRaysIntersection called above determines
                                     // if a collision actually happened
                                     collisionTest= testAfter;
-                                    collisionTest.collisionTime = this._kinEngine.endTime();
+                                    collisionTest.collisionTime = pastTime + this._kinEngine.timeStep();
                                 }
 
                                 // Case 2 & 3: the moving object intersects or has passed throw the obstacle
                                 else
                                 {
-                                    collisionTest.collisionTime = this._kinEngine.timeOfPosition(movingObject, collisionTest.collisionPoint, initialPosition);
+                                    collisionTest.collisionTime = pastTime + this._kinEngine.timeOfPosition(movingObject, collisionTest.collisionPoint, initialPosition);
                                 }
                             }
                             
-                            this._kinEngine.setStartTime(this._kinEngine.endTime());
-                            if(j !== nbSubIntervals-1)
-                                this._kinEngine.setEndTime(this._kinEngine.endTime() + this.timeSubInterval);
-                            else
-                                this._kinEngine.setEndTime(endTimeBak);
+                            if(j === nbSubIntervals-1)
+                                this._kinEngine.setTimeStep(timeStepBak -  pastTime);
+                            
+                            pastTime += this._kinEngine.timeStep();
+                            
                             ++j;
                         }
                         
@@ -224,17 +226,17 @@ define(
                         }
                         
                         //Back the time interval up
-                        this._kinEngine.setTimeInterval(startTimeBak, endTimeBak);
+                        this._kinEngine.setTimeStep(timeStepBak);
                         // Get movingObject back to real startTime
                         if(i !== movingObstacles.length-1)
                             this._kinEngine.stepObjectsBack([movingObject]);
                     }
                     
                     else
-                        this._kinEngine.stepObjectsTo([obstacle], this._kinEngine.endTime());
+                        this._kinEngine.step(obstacle);
                 }
                 
-                this._kinEngine.stepObjectsTo([movingObject], this._kinEngine.endTime());
+                this._kinEngine.step(movingObject);
                 
                 return earliestCollisionTestResult;
             },
