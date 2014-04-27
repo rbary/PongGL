@@ -2,10 +2,12 @@
 define(
     ['PongScene',
     'KinematicEngine',
+    'CollisionDetector',
+    'CollisionReactor',
     '__Base__',
     'NormalBox'],
    
-    function(PongScene, KinematicEngine, __Base__, NormalBox)
+    function(PongScene, KinematicEngine, CollisionDetector, CollisionReactor, __Base__, NormalBox)
     {
         var PongRenderer = new JS.Class(__Base__,
         {
@@ -18,7 +20,11 @@ define(
                 this.height = height;
                 this.lastTime = 0;
                 this.cameraControls = null;
+                
                 this.pongScene = null;
+                this.kEngine = null;
+                this.collisionDetector = null;
+                this.collisionReactor = null;
 
                 this.camera = new THREE.PerspectiveCamera(45, width / height, 0.01, 10);
 
@@ -51,11 +57,27 @@ define(
 
                 this.kEngine = kinematicEngine;
             },
+            
+            bindCollisionDetector: function(collisionDetector)
+            {
+                this.checkArgs([collisionDetector],[CollisionDetector],'bindCollisionDetector');
+                
+                this.collisionDetector = collisionDetector;
+            },
+            
+            bindCollisionReactor: function(collisionReactor)
+            {
+                this.checkArgs([collisionReactor],[CollisionReactor],'bindCollisionReactor');
+                
+                this.collisionReactor = collisionReactor;
+            },
 
-            bindComponents: function(pongScene, kinematicEngine)
+            bindComponents: function(pongScene, kinematicEngine, collisionDetector, collisionReactor)
             {
                 this.bindScene(pongScene);
                 this.bindKinematicEngine(kinematicEngine);
+                this.bindCollisionDetector(collisionDetector);
+                this.bindCollisionReactor(collisionReactor);
             },
 
             makeNormalBox: function()
@@ -88,6 +110,8 @@ define(
                     this.cameraControls.update();
 
                 this.kEngine.newFrame();
+                var collisionTestResultsList = this.collisionDetector.detect();
+                this.collisionReactor.computeReactions(collisionTestResultsList);
             },
 
             width: function()

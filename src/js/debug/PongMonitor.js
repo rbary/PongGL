@@ -11,11 +11,11 @@ define(
     
     function(__Base__, KinematicEngine)
     {
-        var KinematicEngineMonitor = new JS.Class(__Base__,
+        var PongMonitor = new JS.Class(__Base__,
         {
             initialize: function()
             {
-                this.callSuper('KinematicEngineMonitor');
+                this.callSuper('PongMonitor');
                 
                 this.kinEngine = null;
                 this.gui = new dat.GUI();
@@ -23,12 +23,12 @@ define(
             
             bindKinEngine: function(kinEngine)
             {
-                this.checkArgs([kinEngine], [KinematicEngine], 'initialize');
+                this.checkArgs([kinEngine], [KinematicEngine], 'bindKinEngine');
                 
                 this.kinEngine = kinEngine;
                 this.gui.add(this.kinEngine, '_startTime');
             }
         });
         
-        return KinematicEngineMonitor;
+        return PongMonitor;
     });

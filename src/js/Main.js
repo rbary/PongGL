@@ -9,7 +9,6 @@ requirejs.config({
         JSLoader: '../lib/JS.Class/min/loader',
         JSCore: '../lib/JS.Class/min/core',
         DatGui: '../lib/dat.gui/dat.gui',
-        PongGame: 'components/PongGame',
         
         Abstract3DObject: '3DObjects/Abstract3DObject',
         AbstractDynamic3DObject: '3DObjects/AbstractDynamic3DObject',
@@ -23,10 +22,11 @@ requirejs.config({
         CollisionTestResultHolder: 'components/CollisionTestResultHolder',
         GameStateManager: 'components/GameStateManager',
         KinematicEngine: 'components/KinematicEngine',
+        PongGame: 'components/PongGame',
         PongRenderer: 'components/PongRenderer',
         PongScene: 'components/PongScene',
         
-        KinematicEngineMonitor: 'debug/KinematicEngineMonitor',
+        PongMonitor: 'debug/PongMonitor',
         
         AbstractChecker: 'defensive/AbstractChecker',
         NullityChecker: 'defensive/NullityChecker',
@@ -51,16 +51,12 @@ requirejs.config({
       'WindowResize' : ['Three'],
       'KeyboardState' : ['Three'],
       'JSCore': ['JSLoader'],
-      'GenericException': ['JSCore']
+      'PongGame': ['JSCore']
     }
 });
 
 require(
-   ['PongScene',
-   'PongRenderer',
-   'KinematicEngine',
-   'GenericException',
-   'KinematicEngineMonitor',
+   ['PongGame',
    
    'Three',
    'OrbitControls',
@@ -70,47 +66,19 @@ require(
    'JSLoader',
    'JSCore'],
    
-    function(PongScene, PongRenderer, KinematicEngine, GenericException, KinematicEngineMonitor)
+    function(PongGame)
     {
-        var renderer;
-
+        var game;
+        
         function animate()
         {
+            game.step();
             requestAnimationFrame(animate);
-            renderer.render();
-            renderer.update();
         }
-
-        function start()
-        {
-            try
-            {
-                var pongScene = new PongScene();
-                var kEngine = new KinematicEngine();
-                kEngine.bindScene(pongScene);
-
-                renderer = new PongRenderer("view", window.innerWidth, window.innerHeight);
-                renderer.bindComponents(pongScene, kEngine);
-
-                renderer.setCameraControls();
-                renderer.makeNormalBox();
-                renderer.makeAxis();
-
-                renderer.setCameraPosition(pongScene.wallWidth / 2 + 0.4, 0.4, 0);
-                
-                var monitor = new KinematicEngineMonitor();
-                monitor.bindKinEngine(kEngine);
-
-                animate();
-            }
-
-            catch (ex if ex instanceof GenericException)
-            {
-                console.log("\nLogging from Main.js, catching instanceof GenericException\n");
-                console.log(ex.getMessage());
-            }
-        }
-        ;
-
-        start();
+        
+        var game = new PongGame();
+        game.init();
+        game.setAnimateFunction(animate);
+        
+        game.loop();
     });

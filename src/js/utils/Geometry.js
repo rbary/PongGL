@@ -1,5 +1,5 @@
 
-defin(
+define(
     ['__Base__',
     'AbstractDynamic3DObject',
     'Abstract3DObject'],

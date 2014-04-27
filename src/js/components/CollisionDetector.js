@@ -33,6 +33,13 @@ define(
 
                 this._pongScene = pongScene;
             },
+            bindComponents: function(pongScene, kinEngine)
+            {
+                this.checkArgs([pongScene, kinEngine],[PongScene, KinematicEngine],'bindComponents');
+                
+                this._pongScene = pongScene;
+                this._kinEngine = kinEngine;
+            },
 
             setCollisionTolerance: function(tolerance)
             {
