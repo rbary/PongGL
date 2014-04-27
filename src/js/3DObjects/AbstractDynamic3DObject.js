@@ -4,9 +4,10 @@ define(
     'EnumRayCastingMode',
     'EnumCollisionType',
     'CollisionTestResultHolder',
-    'Geometry'],
+    'Geometry',
+    'DefaultParameters'],
     
-    function(Abstract3DObject, EnumRayCastingMode, EnumCollisionType, CollisionTestResultHolder, Geometry)
+    function(Abstract3DObject, EnumRayCastingMode, EnumCollisionType, CollisionTestResultHolder, Geometry, DefaultParameters)
     {
         /**
          * 
@@ -31,7 +32,7 @@ define(
                 this._timeCursor = 0; /*!< Allows to move back and forth in the current simulation time interval */
 
                 this._obstacles = {motionless:[], moving:[]};
-                this._collisionTolerance = 0.0001;
+                this._collisionTolerance = DefaultParameters.collisionTolerance;
 
                 this._rayCaster = new THREE.Raycaster();
                 this._rayDirections = [];

@@ -50,14 +50,18 @@ define(
                     this.renderer.setCameraPosition(pongScene.wallWidth / 2 + 0.4, 0.4, 0);
 
                     var monitor = new PongMonitor();
-                    monitor.bindKinEngine(this.kEngine);
                     monitor.bindPongGame(this);
                 }
 
-                catch (ex if ex instanceof GenericException)
+                catch (ex /*if ex instanceof GenericException*/)
                 {
-                    console.log("\nLogging from Main.js, catching instanceof GenericException\n");
-                    console.log(ex.getMessage());
+                    if(ex instanceof GenericException)
+                    {
+                        console.log("\nLogging from Main.js, catching instanceof GenericException\n");
+                        console.log(ex.getMessage());
+                    }
+                    //else
+                        //console.log(ex.message);
                 }
             },
             
