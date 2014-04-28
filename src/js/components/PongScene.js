@@ -28,8 +28,7 @@ define(
                 this.bats = new Array();
                 this.movingObjects = new Array();
 
-                this.ball = new Ball(this.ballRadius, 0, 0, 0, this.ballMass, this.initialAcceleration, this.initialSpeed);
-                this.ball.setY(-0.03);
+                this.ball = new Ball(this.ballRadius, 0, -0.03, 0, this.ballMass, this.initialAcceleration, this.initialSpeed);
 
                 this.walls[0] = new Wall('wall-left', 0,0,this.groundHeight/2, this.wallWidth, this.wallHeight, this.wallThickness);
                 this.walls[1] = new Wall('wall-right', 0,0,-this.groundHeight/2, this.wallWidth, this.wallHeight, this.wallThickness);

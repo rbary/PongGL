@@ -52,7 +52,7 @@ define(
             detect: function()
             {
                 var collisionTestResultsList = [];
-
+                
                 for(var i=0; i < this._pongScene.movingObjects.length; ++i)
                 {
                     var movingObject = this._pongScene.movingObjects[i];
@@ -62,7 +62,7 @@ define(
 
                     if(!collisionTestResult.isColliding)
                     {
-                        collisionTestResult = _latelyDetect(movingObject);
+                        collisionTestResult = this._latelyDetect(movingObject);
                     }
 
                     else
@@ -83,13 +83,12 @@ define(
 
             _latelyDetect : function(movingObject)
             {
-                this.check([movingObject], [AbstractDynamic3DObject], '_latelyDetect');
+                this.checkArgs([movingObject], [AbstractDynamic3DObject], '_latelyDetect');
 
-                var mlCollisionTestResult = _latelyMotionLess(movingObject); //collisions with motionless objects
-                var mvCollisionTestResult = _latelyMoving(movingObject); // collisions with moving objects
+                var mlCollisionTestResult = this._latelyMotionLess(movingObject); //collisions with motionless objects
+                var mvCollisionTestResult = this._latelyMoving(movingObject); // collisions with moving objects
 
-                return _earliestCollision(mlCollisionTestResult, mvCollisionTestResult);
-
+                return this._earliestCollision(mlCollisionTestResult, mvCollisionTestResult);
             },
 
             // lately detect collision with motionless obstacles
@@ -98,19 +97,16 @@ define(
             _latelyMotionLess: function(movingObject)
             {
                 var collisionTestResult;
-                var motionLessObstacles = movingObject.motionLessObstacles();
 
                 //We go back to the step start time
-                this._kinEngine.stepObjectsBack(motionLessObstacles);
                 this._kinEngine.stepObjectsBack([movingObject]);
                 
                 var initialPosition = movingObject.position();
 
                 movingObject.setUniDirectionalRays(movingObject.speed());
-                collisionTestResult = movingObject.getRaysIntersection(motionLessObstacles);
+                collisionTestResult = movingObject.getRaysIntersection(movingObject.motionLessObstacles());
 
                 //We go at to the step end time
-                this._kinEngine.stepObjectsTo(motionLessObstacles, this._kinEngine.endTime());
                 this._kinEngine.step(movingObject);
                 
                 if(collisionTestResult.collider !== null)

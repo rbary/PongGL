@@ -28,7 +28,7 @@ define(
 
             checkArgs : function(args, types, methodName)
             {
-                this.typeChecker.check(args, types, methodName);
+                this.nullityChecker.check(args, methodName);
                 this.typeChecker.check(args, types, methodName);
             },
 

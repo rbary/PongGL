@@ -24,8 +24,10 @@ define(
 
             setResult: function(isColliding, movingObject, collider, collisionPoint, collisionFaceNormal, collisionType, collisionTime)
             {
-                this.checkArgs([isColliding, movingObject, collider, collisionPoint, collisionFaceNormal, collisionType, collisionTime],
-                               [Boolean, Abstract3DObject, Abstract3DObject, THREE.Vector3, THREE.Vector3, String, Number],'setResult');
+                this.checkArgs([isColliding, movingObject, collisionType],
+                               [Boolean, Abstract3DObject, String],'setResult');
+                this.checkTypes([collider, collisionPoint, collisionFaceNormal, collisionTime],
+                                [Abstract3DObject, THREE.Vector3, THREE.Vector3, Number], 'setResult');
 
                 this.isColliding = isColliding;
                 this.movingObject = movingObject;

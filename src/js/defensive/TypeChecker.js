@@ -69,12 +69,15 @@ define(
                     var arg = args[i];
                     var type = types[i];
                     var typeMatch = true;
+                    
+                    if(arg != null)
+                    {
+                        typeMatch = (arg.constructor === type);
+                        if(!this.strictMode)
+                            typeMatch = typeMatch || (arg instanceof type);
+                    }
 
-                    typeMatch = (arg.constructor === type);
-                    if(!this.strictMode)
-                        typeMatch = typeMatch || (arg instanceof type);
-
-                    if(!typeMatch && arg !== null)
+                    if(!typeMatch)
                     {
                         console.log(arg);
                         message += "arguments "+(i+1)+" is not of the corresponding type\n\t";

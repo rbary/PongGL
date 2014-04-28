@@ -79,12 +79,6 @@ define(
                 this.setSpeed(this._initialSpeed);
                 this.setAcceleration(this._initialAcc);
             },
-            setColliders: function(collidersList)
-            {
-                this.checkArgs([collidersList], [Array], 'setColliders');
-
-                this._obstacles = collidersList;
-            },
             setCollisionTolerance: function(tolerance)
             {
                 this.checkArgs([tolerance], [Number], 'setCollisionTolerance');
@@ -108,6 +102,11 @@ define(
                 this.checkArgs([motionLessObstacle], [Abstract3DObject], 'addMotionLessObstacle');
 
                 this._obstacles.motionless.push(motionLessObstacle);
+            },
+            addObstacles: function(motionLessObstacleList, movingObstacleList)
+            {
+                this.addMotionLessObstacle(motionLessObstacleList);
+                this.addMovingObstacle(movingObstacleList);
             },
 
             setOmniDirectionalRays: function()
@@ -193,8 +192,11 @@ define(
 
                 var isColliding = false;
                 var collisionType = EnumCollisionType.NONE;
-
-                if(rayCastingRes.object !== null && rayCastingRes.object !== {})
+                
+                if(Object.keys(rayCastingRes).length === 0)
+                    rayCastingRes = {distance:null, point:null, face:null, faceIndex:null, object:null};
+                
+                if(rayCastingRes.object !== undefined && rayCastingRes.object !== null && rayCastingRes.object !== {})
                 {
                     if(rayCastingRes.distance <= this._collisionTolerance)
                     {
@@ -207,21 +209,21 @@ define(
                             collisionType = EnumCollisionType.EXACT;
                         }
                     }
+
+                    var faceNormal = Geometry.computeNormal(rayCastingRes.object.getVertex(rayCastingRes.face.a),
+                                                            rayCastingRes.object.getVertex(rayCastingRes.face.b),
+                                                            rayCastingRes.object.getVertex(rayCastingRes.face.c));
                 }
                 
-                var faceNormal = Geometry.computeNormal(rayCastingRes.object.getVertex(rayCastingRes.face.a),
-                                                        rayCastingRes.object.getVertex(rayCastingRes.face.b),
-                                                        rayCastingRes.object.getVertex(rayCastingRes.face.c));
-                
                 return (new CollisionTestResultHolder()).setResult(isColliding, this, rayCastingRes.object,
-                                                                 rayCastingRes.point, faceNormal,
-                                                                 collisionType, null);
+                                                                   rayCastingRes.point, faceNormal,
+                                                                   collisionType, null);
             },
 
             detectContact: function()
             {
                 this.setOmniDirectionalRays();
-                return this.getRaysIntersection(this._obstacles);
+                return this.getRaysIntersection(this._obstacles.motionless.concat(this._obstacles.moving));
             },
 
             mass : function()
@@ -246,15 +248,15 @@ define(
             },
             obstacles : function()
             {
-                return this._obstacles.clone();
+                return this._obstacles; // My Cloner module doesn't work
             },
             movingObstacles : function()
             {
-                return this._obstacles.moving.clone();
+                return this._obstacles.moving; // My Cloner module doesn't work
             },
             motionLessObstacles : function()
             {
-                return this._obstacles.motionless.clone();
+                return this._obstacles.motionless; // My Cloner module doesn't work
             },
             timeCursor: function()
             {

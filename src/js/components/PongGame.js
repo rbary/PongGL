@@ -53,15 +53,15 @@ define(
                     monitor.bindPongGame(this);
                 }
 
-                catch (ex /*if ex instanceof GenericException*/)
+                catch (ex)
                 {
                     if(ex instanceof GenericException)
                     {
                         console.log("\nLogging from Main.js, catching instanceof GenericException\n");
                         console.log(ex.getMessage());
                     }
-                    //else
-                        //console.log(ex.message);
+                    else
+                        console.log(ex.message);
                 }
             },
             
@@ -80,8 +80,8 @@ define(
             step: function()
             {
                 this.kEngine.newFrame();
-                //var collisionTestResultsList = this.collisionDetector.detect();
-                //this.collisionReactor.computeReactions(collisionTestResultsList);
+                var collisionTestResultsList = this.collisionDetector.detect();
+                this.collisionReactor.computeReactions(collisionTestResultsList);
             },
             
             loop: function()

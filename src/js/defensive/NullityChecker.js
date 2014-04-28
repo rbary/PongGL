@@ -16,35 +16,8 @@ define(
                 this.faultyState = "";
             },
 
-            _checkFormat : function(param)
-            {
-                if(!param)
-                {
-                    var message = "in "+this.className+"."+this.methodName+", argument 'param' must not be null or undefined";
-                    throw new IllegalArgumentException(message, 'NullityChecker', '_checkFormat');
-                }
-
-                if(param.constructor !== Object)
-                {
-                    var message = "in "+this.className+"."+this.methodName+", argument 'param' must be an object of the form {name:'paramName', value:paramValue}";
-                    throw new IllegalArgumentException(message, 'NullityChecker', '_checkFormat');
-                }
-
-                if(!param.name)
-                {
-                    var message = "in "+this.className+"."+this.methodName+", argument 'param' must be an object of the form {name:'paramName', value:paramValue}.\n\t property 'name' is missing or null.";
-                    throw new IllegalArgumentException(message, 'NullityChecker', '_checkFormat');
-                }
-
-                if(param.value === undefined)
-                {
-                    var message = "in "+this.className+"."+this.methodName+", argument 'param' must be an object of the form {name:'paramName', value:paramValue}.\n\t property 'value' is missing.";
-                    throw new IllegalArgumentException(message, 'NullityChecker', '_checkFormat');
-                }
-            },
-
             /**
-             * @param {list of dict} parameters list of parameters, in the form [{name:'param1', value:value1}, {name:'param2', value:value2}]
+             * @param {list of parameters} parameters list of parameters
              */
             check: function(parameters, methodName)
             {
@@ -60,7 +33,7 @@ define(
 
                 if(parameters.constructor !== Array)
                 {
-                    var message = "in "+this.className+"."+this.methodName+", argument 'parameters' must be an array of the form form [{name:'param1', value:value1}, {name:'param2', value:value2}]";
+                    var message = "in "+this.className+"."+this.methodName+", argument 'parameters' must be an array.";
                     throw new IllegalArgumentException(message, 'NullityChecker', 'check');
                 }
 
@@ -70,7 +43,6 @@ define(
                 for(var i=0; i < parameters.length; ++i)
                 {
                     var param = parameters[i];
-                    this._checkFormat(param);
 
                     if(param === null || param === undefined)
                     {
